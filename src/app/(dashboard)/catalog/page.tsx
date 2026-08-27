@@ -19,7 +19,7 @@ export default async function CatalogPage({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("catalog");
+  const { supabase, membership } = await requirePageAccess("catalog", "read", "CRM");
   const { q, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   const search = q?.trim() || undefined;

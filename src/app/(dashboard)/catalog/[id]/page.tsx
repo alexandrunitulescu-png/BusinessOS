@@ -15,7 +15,7 @@ export default async function ItemPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("catalog");
+  const { supabase, membership } = await requirePageAccess("catalog", "read", "CRM");
   const { id } = await params;
   const item = await getItem(supabase, membership.id, id);
   if (!item) notFound();

@@ -16,7 +16,7 @@ export default async function SupplierPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("business");
+  const { supabase, membership } = await requirePageAccess("business", "read", "CRM");
   const { id } = await params;
   const supplier = await getSupplier(supabase, membership.id, id);
   if (!supplier) notFound();

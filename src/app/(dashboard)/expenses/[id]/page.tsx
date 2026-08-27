@@ -20,7 +20,7 @@ export default async function ExpensePage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("money");
+  const { supabase, membership } = await requirePageAccess("money", "read", "EXPENSES");
   const { id } = await params;
 
   const expense = await getExpense(supabase, membership.id, id);

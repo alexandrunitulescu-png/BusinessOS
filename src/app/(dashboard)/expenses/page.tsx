@@ -33,7 +33,7 @@ export default async function ExpensesPage({
 }: {
   searchParams: Promise<{ q?: string; page?: string; status?: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("money");
+  const { supabase, membership } = await requirePageAccess("money", "read", "EXPENSES");
   const { q, page: pageParam, status: statusParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   const search = q?.trim() || undefined;

@@ -12,6 +12,7 @@ import {
   type InvoiceStatus,
 } from "@/lib/invoicing/schemas";
 import { computeInvoice } from "@/lib/invoicing/calculations";
+import { checkInvoiceQuota, getEntitlements } from "@/lib/billing/entitlements";
 
 export type MutationResult = { error: string | null };
 export type CreateResult = { error: string | null; id?: string };
@@ -93,6 +94,16 @@ export async function createInvoiceAction(input: InvoiceDraftInput): Promise<Cre
 
   const gate = await authorize("write");
   if (!gate.ok) return { error: gate.error };
+
+  const entitlements = await getEntitlements(gate.supabase, gate.organizationId);
+  if (entitlements) {
+    const quota = await checkInvoiceQuota(gate.supabase, gate.organizationId, entitlements);
+    if (!quota.allowed) {
+      return {
+        error: `Ai atins limita de ${quota.limit} facturi pe lună (plan ${entitlements.plan.name}). Fă upgrade din Setări.`,
+      };
+    }
+  }
 
   const { header, lines } = buildInvoicePayload(parsed.data);
 

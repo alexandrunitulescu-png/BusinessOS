@@ -6,7 +6,7 @@ import { ItemForm } from "@/components/catalog/ItemForm";
 export const metadata: Metadata = { title: "Articol nou · BusinessOS" };
 
 export default async function NewItemPage() {
-  const { membership } = await requirePageAccess("catalog", "write");
+  const { membership } = await requirePageAccess("catalog", "write", "CRM");
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">

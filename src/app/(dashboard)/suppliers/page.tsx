@@ -18,7 +18,7 @@ export default async function SuppliersPage({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("business");
+  const { supabase, membership } = await requirePageAccess("business", "read", "CRM");
   const { q, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   const search = q?.trim() || undefined;

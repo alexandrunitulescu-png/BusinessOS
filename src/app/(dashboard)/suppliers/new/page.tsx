@@ -6,7 +6,7 @@ import { SupplierForm } from "@/components/crm/SupplierForm";
 export const metadata: Metadata = { title: "Furnizor nou · BusinessOS" };
 
 export default async function NewSupplierPage() {
-  await requirePageAccess("business", "write");
+  await requirePageAccess("business", "write", "CRM");
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">

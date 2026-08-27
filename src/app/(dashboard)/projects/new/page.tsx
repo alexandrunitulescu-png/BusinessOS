@@ -7,7 +7,7 @@ import { ProjectForm } from "@/components/projects/ProjectForm";
 export const metadata: Metadata = { title: "Proiect nou · BusinessOS" };
 
 export default async function NewProjectPage() {
-  const { supabase, membership } = await requirePageAccess("business", "write");
+  const { supabase, membership } = await requirePageAccess("business", "write", "PROJECTS");
   const clients = await listClientOptions(supabase, membership.id);
 
   return (

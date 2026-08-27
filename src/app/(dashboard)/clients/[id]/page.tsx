@@ -17,7 +17,7 @@ export default async function ClientPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("business");
+  const { supabase, membership } = await requirePageAccess("business", "read", "CRM");
   const { id } = await params;
   const client = await getClient(supabase, membership.id, id);
   if (!client) notFound();

@@ -6,7 +6,7 @@ import { ClientForm } from "@/components/crm/ClientForm";
 export const metadata: Metadata = { title: "Client nou · BusinessOS" };
 
 export default async function NewClientPage() {
-  await requirePageAccess("business", "write");
+  await requirePageAccess("business", "write", "CRM");
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">

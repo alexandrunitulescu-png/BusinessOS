@@ -30,7 +30,7 @@ export default async function DocumentsPage({
 }: {
   searchParams: Promise<{ type?: string; page?: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("catalog");
+  const { supabase, membership } = await requirePageAccess("catalog", "read", "DOCUMENTS");
   const { type: typeParam, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
   const entityType = isType(typeParam) ? typeParam : undefined;

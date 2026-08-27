@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export default async function IntegrationsPage() {
-  const { supabase, membership } = await requirePageAccess("settings");
+  const { supabase, membership } = await requirePageAccess("settings", "read", "EFACTURA");
 
   const [integration, org] = await Promise.all([
     getTaxIntegration(supabase, membership.id),

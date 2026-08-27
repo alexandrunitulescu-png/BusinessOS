@@ -8,7 +8,7 @@ import { ExpenseForm } from "@/components/expenses/ExpenseForm";
 export const metadata: Metadata = { title: "Cheltuială nouă · BusinessOS" };
 
 export default async function NewExpensePage() {
-  const { supabase, membership } = await requirePageAccess("money", "write");
+  const { supabase, membership } = await requirePageAccess("money", "write", "EXPENSES");
 
   const [suppliers, projects] = await Promise.all([
     listSupplierOptions(supabase, membership.id),

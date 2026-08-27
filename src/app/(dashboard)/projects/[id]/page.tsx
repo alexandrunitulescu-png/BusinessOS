@@ -17,7 +17,7 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase, membership } = await requirePageAccess("business");
+  const { supabase, membership } = await requirePageAccess("business", "read", "PROJECTS");
   const { id } = await params;
 
   const [project, clients] = await Promise.all([
