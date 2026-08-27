@@ -76,6 +76,21 @@ export async function listProjects(
   return { projects: (data ?? []).map(mapProject), total: count ?? 0 };
 }
 
+/** Lightweight {id, name} list for select inputs (no pagination). */
+export async function listProjectOptions(
+  supabase: Db,
+  organizationId: string,
+): Promise<{ id: string; name: string }[]> {
+  const { data, error } = await supabase
+    .from("projects")
+    .select("id, name")
+    .eq("organization_id", organizationId)
+    .not("status", "in", "(COMPLETED,CANCELLED)")
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((r: Row) => ({ id: r.id as string, name: (r.name as string) ?? "" }));
+}
+
 export async function getProject(
   supabase: Db,
   organizationId: string,

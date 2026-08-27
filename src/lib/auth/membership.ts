@@ -35,6 +35,7 @@ type ActionContext =
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       supabase: SupabaseClient<any>;
       membership: OrganizationMembership;
+      userId: string;
     }
   | { ok: false; error: string };
 
@@ -54,5 +55,5 @@ export async function getActionContext(): Promise<ActionContext> {
   const resolved = await resolveActiveMembership(supabase);
   if (!resolved) return { ok: false, error: "Nu ai nicio organizație activă." };
 
-  return { ok: true, supabase, membership: resolved.membership };
+  return { ok: true, supabase, membership: resolved.membership, userId: data.user.id };
 }

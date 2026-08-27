@@ -43,7 +43,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "Bani",
     items: [
-      { label: "Facturi", href: "/invoices", icon: "file-text", resource: "money", available: false },
+      { label: "Facturi", href: "/invoices", icon: "file-text", resource: "money", available: true },
       { label: "Cheltuieli", href: "/expenses", icon: "receipt", resource: "money", available: false },
       { label: "Încasări & plăți", href: "/payments", icon: "wallet", resource: "money", available: false },
       { label: "Rapoarte", href: "/reports", icon: "bar-chart", resource: "money", available: false },

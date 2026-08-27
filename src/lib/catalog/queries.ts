@@ -51,6 +51,27 @@ export async function listItems(
   return { items: (data ?? []).map(mapItem), total: count ?? 0 };
 }
 
+/** Active catalog items for the invoice line picker. */
+export async function listItemOptions(
+  supabase: Db,
+  organizationId: string,
+): Promise<{ id: string; name: string; unit: string; price: number; vatRate: number }[]> {
+  const { data, error } = await supabase
+    .from("products_services")
+    .select("id, name, unit, price, vat_rate")
+    .eq("organization_id", organizationId)
+    .eq("is_active", true)
+    .order("name", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((r: Row) => ({
+    id: r.id as string,
+    name: (r.name as string) ?? "",
+    unit: (r.unit as string) ?? "buc",
+    price: Number(r.price ?? 0),
+    vatRate: Number(r.vat_rate ?? 0),
+  }));
+}
+
 export async function getItem(
   supabase: Db,
   organizationId: string,
