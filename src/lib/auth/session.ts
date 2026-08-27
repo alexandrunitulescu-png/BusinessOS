@@ -1,9 +1,7 @@
 import "server-only";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getUserMemberships } from "@/lib/organizations/queries";
-import { ACTIVE_ORG_COOKIE } from "@/lib/organizations/constants";
+import { resolveActiveMembership } from "@/lib/auth/membership";
 import { hasPermission, type Action, type Resource } from "@/lib/auth/rbac";
 
 /**
@@ -25,15 +23,11 @@ export async function requireUser() {
  */
 export async function requireActiveMembership() {
   const { supabase, user } = await requireUser();
-  const memberships = await getUserMemberships(supabase);
+  const resolved = await resolveActiveMembership(supabase);
 
-  if (memberships.length === 0) redirect("/onboarding");
+  if (!resolved) redirect("/onboarding");
 
-  const cookieStore = await cookies();
-  const activeId = cookieStore.get(ACTIVE_ORG_COOKIE)?.value;
-  const membership = memberships.find((m) => m.id === activeId) ?? memberships[0];
-
-  return { supabase, user, membership, memberships };
+  return { supabase, user, ...resolved };
 }
 
 /**

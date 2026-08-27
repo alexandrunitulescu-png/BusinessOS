@@ -17,14 +17,19 @@ export function Breadcrumbs({
 }) {
   const segments = pathname.split("/").filter(Boolean);
 
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const LEAF_LABELS: Record<string, string> = { new: "Adaugă" };
+
   const crumbs = segments.map((_, index) => {
     const href = `/${segments.slice(0, index + 1).join("/")}`;
-    const known = HREF_LABELS[href];
+    const raw = segments[index];
+    const known = HREF_LABELS[href] ?? LEAF_LABELS[raw];
+    const label = known ?? (UUID_RE.test(raw) ? "Detalii" : decodeURIComponent(raw).replace(/-/g, " "));
     return {
       href,
-      label: known ?? decodeURIComponent(segments[index]).replace(/-/g, " "),
+      label,
       // Only slug-derived labels get title-cased; curated labels stay as written.
-      capitalize: !known,
+      capitalize: !known && !UUID_RE.test(raw),
     };
   });
 
