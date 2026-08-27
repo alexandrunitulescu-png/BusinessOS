@@ -19,8 +19,17 @@ export const FEATURE_LABELS: Record<FeatureKey, string> = {
   AUTOMATIONS: "Automatizări",
 };
 
+/** Publicly selectable plans (the self-serve switcher + comparison grid). */
 export const PLAN_CODES = ["FREE", "STARTER", "PRO", "BUSINESS"] as const;
 export type PlanCode = (typeof PLAN_CODES)[number];
+
+/**
+ * Every plan code, incl. INTERNAL — the free/unlimited complimentary plan that
+ * only a platform admin can assign (see lib/admin/mutations.ts). Never offered
+ * to org owners and hidden from listPlans().
+ */
+export const ALL_PLAN_CODES = [...PLAN_CODES, "INTERNAL"] as const;
+export type AnyPlanCode = (typeof ALL_PLAN_CODES)[number];
 
 export const SUBSCRIPTION_STATUS_LABELS: Record<string, string> = {
   TRIAL: "Perioadă de probă",

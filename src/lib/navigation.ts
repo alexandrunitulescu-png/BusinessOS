@@ -62,9 +62,21 @@ export const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
+/**
+ * Platform-staff-only section (M11). Not part of NAV_GROUPS — it's appended by
+ * {@link navGroupsFor} only when the caller is a platform admin, never gated by
+ * role or plan feature.
+ */
+export const PLATFORM_ADMIN_GROUP: NavGroup = {
+  title: "Platformă",
+  items: [
+    { label: "Admin platformă", href: "/admin", icon: "shield", resource: null, feature: null, available: true },
+  ],
+};
+
 /** Flat label lookup for breadcrumbs. */
 export const HREF_LABELS: Record<string, string> = Object.fromEntries(
-  NAV_GROUPS.flatMap((g) => g.items).map((i) => [i.href, i.label]),
+  [...NAV_GROUPS, PLATFORM_ADMIN_GROUP].flatMap((g) => g.items).map((i) => [i.href, i.label]),
 );
 
 /** Which feature key (if any) gates a given route — used by page guards. */
@@ -78,8 +90,9 @@ export const ROUTE_FEATURE: Record<string, FeatureKey> = Object.fromEntries(
 export function navGroupsFor(
   role: OrganizationRole,
   features: Record<FeatureKey, boolean>,
+  opts: { isPlatformAdmin?: boolean } = {},
 ): NavGroup[] {
-  return NAV_GROUPS.map((group) => ({
+  const groups = NAV_GROUPS.map((group) => ({
     ...group,
     items: group.items.filter(
       (item) =>
@@ -87,4 +100,7 @@ export function navGroupsFor(
         (item.feature === null || features[item.feature] === true),
     ),
   })).filter((group) => group.items.length > 0);
+
+  if (opts.isPlatformAdmin) groups.push(PLATFORM_ADMIN_GROUP);
+  return groups;
 }

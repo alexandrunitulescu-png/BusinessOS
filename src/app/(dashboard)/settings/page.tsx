@@ -143,10 +143,19 @@ export default async function SettingsPage({
         </ul>
       </section>
 
-      <section>
-        <h2 className="mb-3 text-sm font-semibold text-slate-900">Planuri disponibile</h2>
-        <PlanSwitcher plans={plans} currentCode={plan.code} canManage={canManage} />
-      </section>
+      {plan.code === "INTERNAL" ? (
+        <section className="rounded-xl border border-slate-200 bg-white p-5">
+          <h2 className="text-sm font-semibold text-slate-900">Planuri disponibile</h2>
+          <p className="mt-2 text-sm text-slate-500">
+            Cont intern — acces complet, fără limite, gestionat de administratorul platformei.
+          </p>
+        </section>
+      ) : (
+        <section>
+          <h2 className="mb-3 text-sm font-semibold text-slate-900">Planuri disponibile</h2>
+          <PlanSwitcher plans={plans} currentCode={plan.code} canManage={canManage} />
+        </section>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { requireActiveMembership } from "@/lib/auth/session";
+import { isPlatformAdmin } from "@/lib/auth/platform";
 import { getEntitlements } from "@/lib/billing/entitlements";
 import { FEATURE_KEYS, type FeatureKey } from "@/lib/billing/constants";
 import { AppShell } from "@/components/shell/AppShell";
@@ -16,12 +17,15 @@ export default async function DashboardLayout({
   const { supabase, user, membership, memberships } = await requireActiveMembership();
   const orgName = membership.tradeName || membership.legalName;
 
-  const entitlements = await getEntitlements(supabase, membership.id);
+  const [entitlements, platformAdmin] = await Promise.all([
+    getEntitlements(supabase, membership.id),
+    isPlatformAdmin(supabase),
+  ]);
   const features = entitlements?.features ?? ALL_FEATURES_ON;
 
   return (
     <AppShell
-      navGroups={navGroupsFor(membership.role, features)}
+      navGroups={navGroupsFor(membership.role, features, { isPlatformAdmin: platformAdmin })}
       memberships={memberships}
       activeOrgId={membership.id}
       orgName={orgName}

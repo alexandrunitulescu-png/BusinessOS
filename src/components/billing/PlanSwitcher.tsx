@@ -2,7 +2,12 @@
 
 import { useState, useTransition } from "react";
 import { changePlanAction } from "@/lib/billing/mutations";
-import { FEATURE_LABELS, FEATURE_KEYS, type PlanCode } from "@/lib/billing/constants";
+import {
+  FEATURE_LABELS,
+  FEATURE_KEYS,
+  type AnyPlanCode,
+  type PlanCode,
+} from "@/lib/billing/constants";
 import type { PlanInfo } from "@/lib/billing/types";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/shell/icons";
@@ -14,7 +19,7 @@ export function PlanSwitcher({
   canManage,
 }: {
   plans: PlanInfo[];
-  currentCode: PlanCode;
+  currentCode: AnyPlanCode;
   canManage: boolean;
 }) {
   const [error, setError] = useState<string | null>(null);
@@ -79,7 +84,8 @@ export function PlanSwitcher({
                   variant="secondary"
                   disabled={isPending}
                   className="mt-3 w-full"
-                  onClick={() => choose(plan.code)}
+                  // listPlans() never returns INTERNAL, so this is always a public code.
+                  onClick={() => choose(plan.code as PlanCode)}
                 >
                   {isPending && pendingCode === plan.code ? "Se schimbă…" : "Alege planul"}
                 </Button>

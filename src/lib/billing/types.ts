@@ -1,7 +1,8 @@
-import type { FeatureKey, PlanCode, PlanLimits } from "@/lib/billing/constants";
+import type { AnyPlanCode, FeatureKey, PlanLimits } from "@/lib/billing/constants";
 
 export type PlanInfo = {
-  code: PlanCode;
+  /** May be INTERNAL for a comped org; the public catalog (listPlans) never is. */
+  code: AnyPlanCode;
   name: string;
   price: number | null;
   currency: string;

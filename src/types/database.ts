@@ -48,6 +48,10 @@ export type Database = {
         };
         Returns: { allowed: boolean; retry_after: number }[];
       };
+      is_platform_admin: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

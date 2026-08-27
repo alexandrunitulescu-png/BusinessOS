@@ -17,6 +17,7 @@ export type IconName =
   | "id-card"
   | "plug"
   | "settings"
+  | "shield"
   | "menu"
   | "close"
   | "chevron-down"
@@ -75,6 +76,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2" />
     </>
   ),
+  shield: <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="m6 6 12 12M18 6 6 18" />,
   "chevron-down": <path d="m6 9 6 6 6-6" />,

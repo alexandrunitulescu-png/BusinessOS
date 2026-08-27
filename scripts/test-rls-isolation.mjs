@@ -111,7 +111,7 @@ async function makeTenant(tag) {
   if (upErr) throw new Error(`seed object(${tag}): ${upErr.message}`);
   state.objects.push(objectPath);
 
-  return { tag, email, orgId, db, clientId: seededClient.id, objectPath };
+  return { tag, email, userId: created.user.id, orgId, db, clientId: seededClient.id, objectPath };
 }
 
 // ---------------------------------------------------------------- assertions
@@ -214,6 +214,39 @@ async function run() {
       .insert({ organization_id: B.orgId, expense_date: "2026-08-01", amount: 1, vat_amount: 0, currency: "RON" })
       .select("id");
     ok(!!insA.error, `A INSERT expense into B rejected (${insA.error?.code ?? "no error!"})`);
+  }
+
+  // ---- 8. platform admin: the ONE sanctioned cross-tenant path (M11) ----
+  // A platform admin may list orgs and manage plans, but still cannot read
+  // another tenant's business data.
+  console.log("8) platform admin scope");
+  {
+    const { error: flagErr } = await admin
+      .from("profiles")
+      .update({ is_platform_admin: true })
+      .eq("id", A.userId);
+    ok(!flagErr, `granted A platform-admin (${flagErr?.message ?? "ok"})`);
+    // No teardown needed: deleting user A cascades its profile row.
+
+    // The flag is read server-side by is_platform_admin() (not from the JWT), so
+    // A's existing session picks it up immediately.
+    const subSel = await A.db.from("subscriptions").select("organization_id, plan_id").eq("organization_id", B.orgId);
+    ok(!subSel.error && (subSel.data ?? []).length === 1, `admin A CAN read B's subscription (${subSel.data?.length ?? subSel.error?.code})`);
+
+    const { data: freePlan } = await admin.from("plans").select("id").eq("code", "FREE").single();
+    const subUpd = await A.db
+      .from("subscriptions")
+      .update({ plan_id: freePlan.id, status: "ACTIVE", trial_ends_at: null })
+      .eq("organization_id", B.orgId)
+      .select("id");
+    ok(!subUpd.error && (subUpd.data ?? []).length === 1, `admin A CAN update B's plan (${subUpd.error?.code ?? "ok"})`);
+
+    const cliSel = await A.db.from("clients").select("id").eq("organization_id", B.orgId);
+    ok(!cliSel.error && (cliSel.data ?? []).length === 0, `admin A still sees 0 rows of B.clients (data stays isolated)`);
+    const invSel = await A.db.from("invoices").select("id").eq("organization_id", B.orgId);
+    ok(!invSel.error && (invSel.data ?? []).length === 0, `admin A still sees 0 rows of B.invoices`);
+    const docDl = await A.db.storage.from("org-files").download(B.objectPath);
+    ok(!!docDl.error || !docDl.data, `admin A still cannot download B's storage object`);
   }
 }
 

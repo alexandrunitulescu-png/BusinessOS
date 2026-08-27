@@ -17,11 +17,15 @@ function features(source: Record<string, unknown>): Record<FeatureKey, boolean> 
   return out;
 }
 
-/** The full plan catalog, cheapest first, for the plan comparison. */
+/**
+ * The public plan catalog, cheapest first, for the plan comparison.
+ * INTERNAL is excluded — it is a platform-admin-only complimentary plan.
+ */
 export async function listPlans(supabase: Db): Promise<PlanInfo[]> {
   const { data, error } = await supabase
     .from("plans")
     .select("code, name, price, currency, limits, features")
+    .neq("code", "INTERNAL")
     .order("price", { ascending: true, nullsFirst: true });
   if (error) throw error;
 

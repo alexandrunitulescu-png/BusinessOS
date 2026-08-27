@@ -5,6 +5,7 @@ import { resolveActiveMembership } from "@/lib/auth/membership";
 import { hasPermission, type Action, type Resource } from "@/lib/auth/rbac";
 import { canUseFeature, getEntitlements } from "@/lib/billing/entitlements";
 import type { FeatureKey } from "@/lib/billing/constants";
+import { isPlatformAdmin } from "@/lib/auth/platform";
 
 /**
  * Authenticates via `getUser()` (not `getSession()`) so the token is
@@ -54,6 +55,18 @@ export async function requirePageAccess(
     if (!canUseFeature(entitlements, feature)) {
       redirect(`/settings?feature=${feature}`);
     }
+  }
+  return context;
+}
+
+/**
+ * Page-level gate for the platform-admin area (`/admin`). Non-staff users are
+ * sent back to the dashboard, same as an RBAC failure.
+ */
+export async function requirePlatformAdmin() {
+  const context = await requireActiveMembership();
+  if (!(await isPlatformAdmin(context.supabase))) {
+    redirect("/dashboard");
   }
   return context;
 }
