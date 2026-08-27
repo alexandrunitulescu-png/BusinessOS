@@ -1,7 +1,7 @@
 # M0 — Product & System Architecture
 
 **Product**: BusinessOS — multi-tenant SaaS ERP simplu pentru PFA / II / IF / SRL / profesii liberale din România.
-**Status**: draft pentru aprobare. Nu s-a scris cod de aplicație.
+**Status**: aprobat și implementat integral. M1–M10 livrate, verificate și deployate în producție (Vercel) — vezi §18. Excepție cunoscută: M7 a livrat doar jumătatea neutră (pipeline country-agnostic); provider-ul real ANAF/SPV rămâne de construit pe baza documentației oficiale (§10).
 
 ---
 
@@ -812,7 +812,11 @@ Regulă: **niciun `lib/services/` monolitic** — fiecare domeniu are propriile 
 | Abuz rate/DoS pe endpoint-uri sensibile | brute-force login, spam submit e-Factura | rate limiting middleware per user/IP |
 | Webhook payload falsificat la ieșire | endpoint extern compromis | payload semnat HMAC cu `webhook_endpoints.secret` |
 
-Teste de securitate obligatorii (nu opționale) înainte de M10: suite automate care demonstrează exact cele 4 cazuri din cerință (SELECT/INSERT/UPDATE/Storage cross-tenant refuzate).
+Teste de securitate obligatorii (nu opționale): suite automate care demonstrează
+exact cele 4 cazuri din cerință (SELECT/INSERT/UPDATE/Storage cross-tenant
+refuzate). **Livrat în M10** — `scripts/test-rls-isolation.mjs` (`npm run
+test:rls`), 23/23, cu teardown automat; acoperă în plus DELETE cross-tenant și
+imutabilitatea `audit_logs`.
 
 ---
 
@@ -834,21 +838,56 @@ Full accounting / partidă dublă · Payroll · Revisal/REGES · Pontaj complex 
 
 ## 18. Implementation Milestones
 
-| # | Milestone | Scop |
-|---|---|---|
-| M1 | Foundation + Auth + Organizations + RLS | schema completă, RLS pe toate tabelele, onboarding, organization switcher |
-| M2 | App Shell + Dashboard | layout, sidebar, KPI din DB |
-| M3 | Clients + Suppliers + Catalog | CRM + produse/servicii |
-| M4 | Projects | proiecte opționale, legare la clienți |
-| M5 | Invoices + PDF | engine facturare, calcule deterministe, PDF |
-| M6 | Expenses + Payments | cheltuieli, reconciliere plăți parțiale |
-| M7 | Romania e-Factura (TEST) | provider ANAF, doar pe baza docs oficiale, mediu de test |
-| M8 | Documents + Reports | document management, rapoarte MVP |
-| M9 | Subscriptions/Entitlements | plans, feature flags, EntitlementsService |
-| M10 | Security + Testing + Production hardening | teste RLS cross-tenant, audit, rate limiting, build de producție |
+Proces respectat la fiecare milestone: lint, typecheck, teste, build de producție, sumar modificări, listă migrări DB, implicații de securitate → **STOP**, aștept aprobare.
 
-După fiecare milestone: lint, typecheck, teste, build de producție, sumar modificări, listă migrări DB, implicații de securitate → **STOP**, aștept aprobare.
+| # | Milestone | Scop | Status | Commit(uri) |
+|---|---|---|---|---|
+| M1 | Foundation + Auth + Organizations + RLS | schema completă, RLS pe toate tabelele, onboarding, organization switcher | ✅ livrat | `bca3f7e` |
+| M2 | App Shell + Dashboard | layout, sidebar, KPI din DB | ✅ livrat | `ccf606b` |
+| M3 | Clients + Suppliers + Catalog | CRM + produse/servicii | ✅ livrat | `c669584` |
+| M4 | Projects | proiecte opționale, legare la clienți | ✅ livrat | `b5d01c2` |
+| M5 | Invoices + PDF | engine facturare, calcule deterministe, PDF | ✅ livrat | `1e5627d`, `a13658a` |
+| M6 | Expenses + Payments | cheltuieli, reconciliere plăți parțiale | ✅ livrat | `70f96ce` |
+| M7 | Romania e-Factura (TEST) | provider ANAF, doar pe baza docs oficiale, mediu de test | ⚠️ parțial — doar jumătatea neutră (pipeline country-agnostic, `EInvoiceProvider` + stub, UBL 2.1 cu `TODO(ANAF)`); provider-ul real SPV rămâne de construit cu docs oficiale (§10) | `62d926b` |
+| M8 | Documents + Reports | document management, rapoarte MVP | ✅ livrat | `0a0440f` |
+| M9 | Subscriptions/Entitlements | plans, feature flags, EntitlementsService | ✅ livrat | `60a4ade` |
+| M10 | Security + Testing + Production hardening | teste RLS cross-tenant, audit, rate limiting, build de producție | ✅ livrat | `05464bc` |
 
----
+### Status final (2026-08-27)
 
-*Acest document este M0. Nu s-a implementat cod de aplicație. Aștept aprobarea înainte de a începe M1.*
+Planul M1–M10 este implementat. Aplicația rulează în producție pe Vercel
+(`businessos-virid.vercel.app`), pe Supabase (proiect `npnybekbxbotqxbmvwdj`),
+cu toate migrările aplicate.
+
+**M10 — ce a livrat concret:**
+- **Suită automată de izolare cross-tenant** (`scripts/test-rls-isolation.mjs`,
+  `npm run test:rls`): 2 organizații throwaway, dovedește că SELECT / INSERT /
+  UPDATE / DELETE / Storage cross-tenant sunt toate refuzate + `audit_logs`
+  append-only. Cerința obligatorie din §6/§15.
+- **Rate limiting** Postgres (serverless-safe): funcția `check_rate_limit()` +
+  `rate_limit_hits` (migrare `20260827000007`). Aplicat pe sign-in (5/5min),
+  sign-up (3/h), e-Factura prepare (30/h per org) și un plafon per-IP în
+  `proxy.ts` pentru `/login`,`/signup`,`/auth` (30/min → `429`). Fail-open.
+- **Audit trail** (`src/lib/audit/`): `writeAudit()` best-effort, cablat pe
+  emitere/anulare/ștergere factură, schimbare plan, pregătire e-Factura, creare
+  organizație, ștergere document/cheltuială/plată. Migrarea `20260827000006`
+  revocă UPDATE/DELETE pe `audit_logs` + `einvoice_submission_events` de la
+  `authenticated` **și** `service_role` (imutabilitate la nivel de GRANT, pe
+  lângă RLS — §15).
+- **Hardening producție**: `next.config.ts` — CSP pragmatic (fără nonce, ca să
+  nu forțeze toate paginile pe dynamic rendering), HSTS, `X-Frame-Options: DENY`,
+  `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `poweredByHeader: false`.
+  `scripts/check-bundle-secrets.mjs` (`npm run check:bundle`) verifică că
+  valorile secrete nu ajung în `.next/static`. `npm run verify` =
+  lint → build → typecheck → check:bundle (typecheck rulează **după** build —
+  Next 16 generează `LayoutProps`/`PageProps` în `.next/types`).
+
+**Rămas de făcut (nu în planul M0):**
+- M7 real: `RomanianANAFEInvoiceProvider` (OAuth SPV, submit/getStatus/
+  downloadResponse), RO_CIUS + scheme de codare + schematron, job de polling
+  `upload_id`, butonul real „Trimite la ANAF" + flow `tax_integrations` — toate
+  strict pe baza documentației oficiale ANAF/MF curente (§10).
+- Management membri (invitații, schimbare rol) — RBAC-ul există, dar nu există
+  încă mutații/UI; audit-ul are deja `member.*` rezervat.
+- Payment provider real pentru abonamente (Stripe) — schema `subscriptions`
+  (`provider`, `provider_subscription_id`) e pregătită (§12).
