@@ -9,6 +9,7 @@ import { listItemOptions } from "@/lib/catalog/queries";
 import { listInvoiceSeries } from "@/lib/invoicing/queries";
 import { getOrganizationBillingInfo } from "@/lib/organizations/queries";
 import { deleteInvoiceAction } from "@/lib/invoicing/mutations";
+import { listPaymentsForInvoice } from "@/lib/payments/queries";
 import { invoiceNumberLabel } from "@/lib/invoicing/types";
 import { INVOICE_STATUS_LABELS } from "@/lib/invoicing/schemas";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -17,6 +18,7 @@ import { DeleteButton } from "@/components/ui/DeleteButton";
 import { InvoiceForm } from "@/components/invoicing/InvoiceForm";
 import { InvoiceDocument } from "@/components/invoicing/InvoiceDocument";
 import { InvoiceActions } from "@/components/invoicing/InvoiceActions";
+import { PaymentsSection } from "@/components/payments/PaymentsSection";
 
 export const metadata: Metadata = { title: "Factură · BusinessOS" };
 
@@ -66,6 +68,17 @@ export default async function InvoicePage({
             {canWrite && <InvoiceActions invoiceId={invoice.id} status={invoice.status} />}
           </div>
           <PrintPreview supabase={supabase} organizationId={membership.id} clientId={invoice.clientId} invoice={invoice} />
+          {invoice.status !== "CANCELLED" && (
+            <InvoicePayments
+              invoiceId={invoice.id}
+              total={invoice.total}
+              currency={invoice.currency}
+              supabase={supabase}
+              organizationId={membership.id}
+              canWrite={canWrite}
+              canDelete={canDelete}
+            />
+          )}
         </>
       )}
 
@@ -136,5 +149,37 @@ async function PrintPreview({
     <div className="overflow-x-auto rounded-xl border border-slate-200">
       <InvoiceDocument invoice={invoice} client={client} org={org} />
     </div>
+  );
+}
+
+async function InvoicePayments({
+  invoiceId,
+  total,
+  currency,
+  supabase,
+  organizationId,
+  canWrite,
+  canDelete,
+}: {
+  invoiceId: string;
+  total: number;
+  currency: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any;
+  organizationId: string;
+  canWrite: boolean;
+  canDelete: boolean;
+}) {
+  const payments = await listPaymentsForInvoice(supabase, organizationId, invoiceId);
+  return (
+    <PaymentsSection
+      payments={payments}
+      currency={currency}
+      totalDue={total}
+      addHref={`/payments/new?invoice=${invoiceId}`}
+      canWrite={canWrite}
+      canDelete={canDelete}
+      labelIn="Încasări"
+    />
   );
 }

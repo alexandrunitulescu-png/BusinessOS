@@ -149,6 +149,35 @@ export async function getInvoiceWithLines(
   };
 }
 
+/** Issued invoices that still have an outstanding balance, for the payment picker. */
+export async function listOpenInvoiceOptions(
+  supabase: Db,
+  organizationId: string,
+): Promise<{ id: string; label: string; currency: string; remaining: number }[]> {
+  const { data, error } = await supabase
+    .from("invoices")
+    .select("id, series, number, total, currency, payments(amount)")
+    .eq("organization_id", organizationId)
+    .in("status", ["ISSUED", "SENT", "PARTIALLY_PAID", "OVERDUE"])
+    .order("issue_date", { ascending: false });
+  if (error) throw error;
+
+  return (data ?? [])
+    .map((row: Row) => {
+      const paid = ((row.payments as { amount: unknown }[] | null) ?? []).reduce(
+        (sum, p) => sum + Number(p.amount ?? 0),
+        0,
+      );
+      const remaining = Math.max(Number(row.total ?? 0) - paid, 0);
+      const label =
+        row.series && row.number != null
+          ? `${row.series}-${String(row.number).padStart(4, "0")}`
+          : "Ciornă";
+      return { id: row.id as string, label, currency: (row.currency as string) ?? "RON", remaining };
+    })
+    .filter((o) => o.remaining > 0.004);
+}
+
 export async function listInvoiceSeries(
   supabase: Db,
   organizationId: string,

@@ -150,6 +150,24 @@ export async function listSuppliers(supabase: Db, organizationId: string, args: 
   return { suppliers: rows.map(mapSupplier), total };
 }
 
+/** Lightweight {id, name} list of active suppliers for select inputs. */
+export async function listSupplierOptions(
+  supabase: Db,
+  organizationId: string,
+): Promise<{ id: string; name: string }[]> {
+  const { data, error } = await supabase
+    .from("suppliers")
+    .select("id, company_name")
+    .eq("organization_id", organizationId)
+    .eq("is_active", true)
+    .order("company_name", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((r: Row) => ({
+    id: r.id as string,
+    name: (r.company_name as string) || "Furnizor",
+  }));
+}
+
 export async function getSupplier(
   supabase: Db,
   organizationId: string,
