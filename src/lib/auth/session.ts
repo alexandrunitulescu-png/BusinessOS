@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserMemberships } from "@/lib/organizations/queries";
 import { ACTIVE_ORG_COOKIE } from "@/lib/organizations/constants";
+import { hasPermission, type Action, type Resource } from "@/lib/auth/rbac";
 
 /**
  * Authenticates via `getUser()` (not `getSession()`) so the token is
@@ -23,7 +24,7 @@ export async function requireUser() {
  * access to an organization the user isn't actually in.
  */
 export async function requireActiveMembership() {
-  const { supabase } = await requireUser();
+  const { supabase, user } = await requireUser();
   const memberships = await getUserMemberships(supabase);
 
   if (memberships.length === 0) redirect("/onboarding");
@@ -32,5 +33,18 @@ export async function requireActiveMembership() {
   const activeId = cookieStore.get(ACTIVE_ORG_COOKIE)?.value;
   const membership = memberships.find((m) => m.id === activeId) ?? memberships[0];
 
-  return { supabase, membership, memberships };
+  return { supabase, user, membership, memberships };
+}
+
+/**
+ * Page-level RBAC gate. The sidebar already hides sections a role can't reach,
+ * but this stops a hand-typed URL — the authoritative app-layer check that sits
+ * in front of RLS (M0 §8). Sends unauthorized users back to the dashboard.
+ */
+export async function requirePageAccess(resource: Resource, action: Action = "read") {
+  const context = await requireActiveMembership();
+  if (!hasPermission(context.membership.role, resource, action)) {
+    redirect("/dashboard");
+  }
+  return context;
 }
