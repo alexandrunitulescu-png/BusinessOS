@@ -18,6 +18,8 @@ export type DashboardMetrics = {
   draftCount: number;
   /** Active clients. */
   clientsCount: number;
+  /** Projects currently in the ACTIVE status. */
+  activeProjectsCount: number;
   currency: string;
 };
 
@@ -57,6 +59,7 @@ export async function getDashboardMetrics(
     overdue,
     drafts,
     clients,
+    activeProjects,
   ] = await Promise.all([
     supabase
       .from("payments")
@@ -104,6 +107,11 @@ export async function getDashboardMetrics(
       .select("id", { count: "exact", head: true })
       .match(scoped())
       .eq("is_active", true),
+    supabase
+      .from("projects")
+      .select("id", { count: "exact", head: true })
+      .match(scoped())
+      .eq("status", "ACTIVE"),
   ]);
 
   const firstError =
@@ -114,7 +122,8 @@ export async function getDashboardMetrics(
     openPayments.error ||
     overdue.error ||
     drafts.error ||
-    clients.error;
+    clients.error ||
+    activeProjects.error;
   if (firstError) throw firstError;
 
   const openInvoiceIds = new Set((openInvoices.data ?? []).map((r) => r.id));
@@ -131,6 +140,7 @@ export async function getDashboardMetrics(
     overdueCount: overdue.count ?? 0,
     draftCount: drafts.count ?? 0,
     clientsCount: clients.count ?? 0,
+    activeProjectsCount: activeProjects.count ?? 0,
     currency,
   };
 }

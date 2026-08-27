@@ -37,7 +37,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Clienți", href: "/clients", icon: "users", resource: "business", available: true },
       { label: "Furnizori", href: "/suppliers", icon: "truck", resource: "business", available: true },
       { label: "Produse & servicii", href: "/catalog", icon: "tag", resource: "catalog", available: true },
-      { label: "Proiecte", href: "/projects", icon: "folder", resource: "business", available: false },
+      { label: "Proiecte", href: "/projects", icon: "folder", resource: "business", available: true },
     ],
   },
   {

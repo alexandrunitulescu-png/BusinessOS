@@ -99,7 +99,7 @@ export default async function CatalogPage({
             page={page}
             pageSize={PAGE_SIZE}
             total={total}
-            query={search}
+            params={{ q: search }}
           />
         </>
       )}

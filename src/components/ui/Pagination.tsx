@@ -1,27 +1,30 @@
 import Link from "next/link";
 
-/** Prev/next pager that preserves the current query string. */
+/** Prev/next pager that preserves the given query params across pages. */
 export function Pagination({
   basePath,
   page,
   pageSize,
   total,
-  query,
+  params = {},
 }: {
   basePath: string;
   page: number;
   pageSize: number;
   total: number;
-  query?: string;
+  /** Extra query params to keep on the links (e.g. `{ q, status }`). */
+  params?: Record<string, string | undefined>;
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   if (totalPages <= 1) return null;
 
   const href = (p: number) => {
-    const params = new URLSearchParams();
-    if (query) params.set("q", query);
-    if (p > 1) params.set("page", String(p));
-    const qs = params.toString();
+    const sp = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (value) sp.set(key, value);
+    }
+    if (p > 1) sp.set("page", String(p));
+    const qs = sp.toString();
     return qs ? `${basePath}?${qs}` : basePath;
   };
 

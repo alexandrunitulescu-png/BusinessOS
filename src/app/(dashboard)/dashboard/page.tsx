@@ -99,12 +99,20 @@ export default async function DashboardPage() {
           <h2 className="text-sm font-semibold text-slate-900">Sumar</h2>
           <dl className="mt-3 flex flex-col gap-2.5 text-sm">
             {canSeeBusiness && (
-              <div className="flex items-center justify-between">
-                <dt className="text-slate-500">Clienți activi</dt>
-                <dd className="font-medium text-slate-900">
-                  {formatNumber(metrics.clientsCount)}
-                </dd>
-              </div>
+              <>
+                <div className="flex items-center justify-between">
+                  <dt className="text-slate-500">Clienți activi</dt>
+                  <dd className="font-medium text-slate-900">
+                    {formatNumber(metrics.clientsCount)}
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between">
+                  <dt className="text-slate-500">Proiecte active</dt>
+                  <dd className="font-medium text-slate-900">
+                    {formatNumber(metrics.activeProjectsCount)}
+                  </dd>
+                </div>
+              </>
             )}
             {canSeeMoney && (
               <>

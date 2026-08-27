@@ -101,6 +101,29 @@ export async function listClients(supabase: Db, organizationId: string, args: Li
   return { clients: rows.map(mapClient), total };
 }
 
+/** Lightweight {id, name} list of active clients for select inputs (no pagination). */
+export async function listClientOptions(
+  supabase: Db,
+  organizationId: string,
+): Promise<{ id: string; name: string }[]> {
+  const { data, error } = await supabase
+    .from("clients")
+    .select("id, type, company_name, first_name, last_name")
+    .eq("organization_id", organizationId)
+    .eq("is_active", true)
+    .order("company_name", { ascending: true });
+  if (error) throw error;
+
+  return (data ?? []).map((row: Row) => {
+    const client = mapClient(row);
+    const name =
+      client.type === "PERSON"
+        ? [client.firstName, client.lastName].filter(Boolean).join(" ") || "Persoană"
+        : client.companyName || "Companie";
+    return { id: client.id, name };
+  });
+}
+
 export async function getClient(
   supabase: Db,
   organizationId: string,
