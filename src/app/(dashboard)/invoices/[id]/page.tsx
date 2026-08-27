@@ -19,6 +19,9 @@ import { InvoiceForm } from "@/components/invoicing/InvoiceForm";
 import { InvoiceDocument } from "@/components/invoicing/InvoiceDocument";
 import { InvoiceActions } from "@/components/invoicing/InvoiceActions";
 import { PaymentsSection } from "@/components/payments/PaymentsSection";
+import { prepareEInvoice } from "@/lib/efactura/prepare";
+import { getLatestSubmission } from "@/lib/efactura/queries";
+import { EInvoicePanel } from "@/components/efactura/EInvoicePanel";
 
 export const metadata: Metadata = { title: "Factură · BusinessOS" };
 
@@ -77,6 +80,14 @@ export default async function InvoicePage({
               organizationId={membership.id}
               canWrite={canWrite}
               canDelete={canDelete}
+            />
+          )}
+          {invoice.status !== "CANCELLED" && (
+            <EInvoiceBlock
+              invoiceId={invoice.id}
+              supabase={supabase}
+              organizationId={membership.id}
+              canWrite={canWrite}
             />
           )}
         </>
@@ -149,6 +160,35 @@ async function PrintPreview({
     <div className="overflow-x-auto rounded-xl border border-slate-200">
       <InvoiceDocument invoice={invoice} client={client} org={org} />
     </div>
+  );
+}
+
+async function EInvoiceBlock({
+  invoiceId,
+  supabase,
+  organizationId,
+  canWrite,
+}: {
+  invoiceId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any;
+  organizationId: string;
+  canWrite: boolean;
+}) {
+  const [prepared, submission] = await Promise.all([
+    prepareEInvoice(supabase, organizationId, invoiceId),
+    getLatestSubmission(supabase, organizationId, invoiceId),
+  ]);
+
+  return (
+    <EInvoicePanel
+      invoiceId={invoiceId}
+      canWrite={canWrite}
+      countrySupported={prepared.ok}
+      validation={prepared.ok ? prepared.validation : null}
+      submission={submission}
+      providerConfigured={prepared.ok ? !!prepared.provider?.isConfigured : false}
+    />
   );
 }
 
