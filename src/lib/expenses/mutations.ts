@@ -6,6 +6,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { getActionContext } from "@/lib/auth/membership";
 import { hasPermission, type Action } from "@/lib/auth/rbac";
 import { expenseSchema, type ExpenseInput } from "@/lib/expenses/schemas";
+import { writeAudit } from "@/lib/audit/log";
+import { AUDIT_ACTIONS } from "@/lib/audit/actions";
 
 export type MutationResult = { error: string | null };
 
@@ -17,7 +19,7 @@ const loose = (db: unknown) => db as SupabaseClient<any>;
 type Gate =
   | { ok: false; error: string }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | { ok: true; supabase: SupabaseClient<any>; organizationId: string };
+  | { ok: true; supabase: SupabaseClient<any>; organizationId: string; userId: string };
 
 async function authorize(action: Action): Promise<Gate> {
   const ctx = await getActionContext();
@@ -25,7 +27,12 @@ async function authorize(action: Action): Promise<Gate> {
   if (!hasPermission(ctx.membership.role, "money", action)) {
     return { ok: false, error: NO_PERMISSION };
   }
-  return { ok: true, supabase: loose(ctx.supabase), organizationId: ctx.membership.id };
+  return {
+    ok: true,
+    supabase: loose(ctx.supabase),
+    organizationId: ctx.membership.id,
+    userId: ctx.userId,
+  };
 }
 
 function expenseColumns(data: ExpenseInput) {
@@ -91,6 +98,14 @@ export async function deleteExpenseAction(id: string): Promise<MutationResult> {
     .eq("organization_id", gate.organizationId)
     .eq("id", id);
   if (error) return { error: error.message };
+
+  await writeAudit(gate.supabase, {
+    organizationId: gate.organizationId,
+    userId: gate.userId,
+    action: AUDIT_ACTIONS.EXPENSE_DELETED,
+    entityType: "expense",
+    entityId: id,
+  });
 
   revalidatePath("/expenses");
   redirect("/expenses");

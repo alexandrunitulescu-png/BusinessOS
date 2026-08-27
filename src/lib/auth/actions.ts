@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { signInSchema, signUpSchema } from "@/lib/auth/schemas";
 import { ACTIVE_ORG_COOKIE } from "@/lib/organizations/constants";
 import { cookies } from "next/headers";
+import { getClientIp } from "@/lib/security/request";
+import { checkRateLimit, rateLimitMessage } from "@/lib/security/rate-limit";
 
 export type AuthActionState = {
   error: string | null;
@@ -22,6 +24,13 @@ export async function signInAction(
   }
 
   const supabase = await createClient();
+
+  const ip = await getClientIp();
+  const limit = await checkRateLimit(supabase, "auth:signin", ip);
+  if (!limit.allowed) {
+    return { error: rateLimitMessage(limit.retryAfterSeconds) };
+  }
+
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
@@ -42,6 +51,13 @@ export async function signUpAction(
 
   const origin = (await headers()).get("origin");
   const supabase = await createClient();
+
+  const ip = await getClientIp();
+  const limit = await checkRateLimit(supabase, "auth:signup", ip);
+  if (!limit.allowed) {
+    return { error: rateLimitMessage(limit.retryAfterSeconds) };
+  }
+
   const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,

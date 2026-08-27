@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { onboardingSchema, type OnboardingInput } from "@/lib/organizations/schemas";
 import { ACTIVE_ORG_COOKIE } from "@/lib/organizations/constants";
+import { writeAudit } from "@/lib/audit/log";
+import { AUDIT_ACTIONS } from "@/lib/audit/actions";
 import type { Database } from "@/types/database";
 
 export type OnboardingActionState = {
@@ -56,6 +58,16 @@ export async function createOrganizationAction(
   if (error || !organizationId) {
     return { error: error?.message ?? "Nu am putut crea organizația." };
   }
+
+  const { data: auth } = await supabase.auth.getUser();
+  await writeAudit(supabase, {
+    organizationId: organizationId as string,
+    userId: auth.user?.id ?? null,
+    action: AUDIT_ACTIONS.ORGANIZATION_CREATED,
+    entityType: "organization",
+    entityId: organizationId as string,
+    metadata: { legalName: data.legalName, entityType: data.entityType },
+  });
 
   const cookieStore = await cookies();
   cookieStore.set(ACTIVE_ORG_COOKIE, organizationId as string, {

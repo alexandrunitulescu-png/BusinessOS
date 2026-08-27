@@ -11,6 +11,8 @@ import {
   ORG_FILES_BUCKET,
   type RecordDocumentInput,
 } from "@/lib/documents/schemas";
+import { writeAudit } from "@/lib/audit/log";
+import { AUDIT_ACTIONS } from "@/lib/audit/actions";
 
 export type MutationResult = { error: string | null };
 
@@ -26,7 +28,12 @@ async function authorize(action: "write" | "delete") {
   if (!hasPermission(ctx.membership.role, "catalog", action)) {
     return { ok: false as const, error: NO_PERMISSION };
   }
-  return { ok: true as const, supabase: loose(ctx.supabase), organizationId: ctx.membership.id };
+  return {
+    ok: true as const,
+    supabase: loose(ctx.supabase),
+    organizationId: ctx.membership.id,
+    userId: ctx.userId,
+  };
 }
 
 /**
@@ -112,6 +119,15 @@ export async function deleteDocumentAction(id: string): Promise<MutationResult> 
   if (error) return { error: error.message };
 
   await gate.supabase.storage.from(ORG_FILES_BUCKET).remove([doc.storage_path]);
+
+  await writeAudit(gate.supabase, {
+    organizationId: gate.organizationId,
+    userId: gate.userId,
+    action: AUDIT_ACTIONS.DOCUMENT_DELETED,
+    entityType: "document",
+    entityId: id,
+    metadata: { storagePath: doc.storage_path },
+  });
 
   revalidatePath("/documents");
   const map: Record<string, string> = {

@@ -13,6 +13,8 @@ import {
 } from "@/lib/invoicing/schemas";
 import { computeInvoice } from "@/lib/invoicing/calculations";
 import { checkInvoiceQuota, getEntitlements } from "@/lib/billing/entitlements";
+import { writeAudit } from "@/lib/audit/log";
+import { AUDIT_ACTIONS } from "@/lib/audit/actions";
 
 export type MutationResult = { error: string | null };
 export type CreateResult = { error: string | null; id?: string };
@@ -189,6 +191,14 @@ export async function deleteInvoiceAction(id: string): Promise<MutationResult> {
     .eq("id", id);
   if (error) return { error: error.message };
 
+  await writeAudit(gate.supabase, {
+    organizationId: gate.organizationId,
+    userId: gate.userId,
+    action: AUDIT_ACTIONS.INVOICE_DELETED,
+    entityType: "invoice",
+    entityId: id,
+  });
+
   revalidatePath("/invoices");
   redirect("/invoices");
 }
@@ -199,6 +209,14 @@ export async function issueInvoiceAction(id: string): Promise<MutationResult> {
 
   const { error } = await gate.supabase.rpc("issue_invoice", { p_invoice_id: id } as never);
   if (error) return { error: error.message };
+
+  await writeAudit(gate.supabase, {
+    organizationId: gate.organizationId,
+    userId: gate.userId,
+    action: AUDIT_ACTIONS.INVOICE_ISSUED,
+    entityType: "invoice",
+    entityId: id,
+  });
 
   revalidatePath("/invoices");
   revalidatePath(`/invoices/${id}`);
@@ -232,6 +250,17 @@ export async function setInvoiceStatusAction(
     .eq("organization_id", gate.organizationId)
     .eq("id", id);
   if (error) return { error: error.message };
+
+  if (status === "CANCELLED") {
+    await writeAudit(gate.supabase, {
+      organizationId: gate.organizationId,
+      userId: gate.userId,
+      action: AUDIT_ACTIONS.INVOICE_CANCELLED,
+      entityType: "invoice",
+      entityId: id,
+      metadata: { from: current.status },
+    });
+  }
 
   revalidatePath("/invoices");
   revalidatePath(`/invoices/${id}`);

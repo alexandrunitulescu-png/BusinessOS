@@ -39,6 +39,15 @@ export type Database = {
         Args: { p_organization_id: string };
         Returns: undefined;
       };
+      check_rate_limit: {
+        Args: {
+          p_bucket: string;
+          p_identifier: string;
+          p_limit: number;
+          p_window_seconds: number;
+        };
+        Returns: { allowed: boolean; retry_after: number }[];
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

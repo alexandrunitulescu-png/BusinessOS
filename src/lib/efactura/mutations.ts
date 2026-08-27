@@ -6,6 +6,9 @@ import { getActionContext } from "@/lib/auth/membership";
 import { hasPermission } from "@/lib/auth/rbac";
 import { prepareEInvoice } from "@/lib/efactura/prepare";
 import { EFACTURA_PROVIDER } from "@/lib/efactura/queries";
+import { checkRateLimit, rateLimitMessage } from "@/lib/security/rate-limit";
+import { writeAudit } from "@/lib/audit/log";
+import { AUDIT_ACTIONS } from "@/lib/audit/actions";
 
 export type MutationResult = { error: string | null };
 
@@ -20,7 +23,12 @@ async function authorize() {
   if (!hasPermission(ctx.membership.role, "money", "write")) {
     return { ok: false as const, error: NO_PERMISSION };
   }
-  return { ok: true as const, supabase: loose(ctx.supabase), organizationId: ctx.membership.id };
+  return {
+    ok: true as const,
+    supabase: loose(ctx.supabase),
+    organizationId: ctx.membership.id,
+    userId: ctx.userId,
+  };
 }
 
 /**
@@ -32,6 +40,9 @@ async function authorize() {
 export async function prepareEInvoiceAction(invoiceId: string): Promise<MutationResult> {
   const gate = await authorize();
   if (!gate.ok) return { error: gate.error };
+
+  const limit = await checkRateLimit(gate.supabase, "efactura:prepare", gate.organizationId);
+  if (!limit.allowed) return { error: rateLimitMessage(limit.retryAfterSeconds) };
 
   const prepared = await prepareEInvoice(gate.supabase, gate.organizationId, invoiceId);
   if (!prepared.ok) return { error: prepared.error };
@@ -82,6 +93,15 @@ export async function prepareEInvoiceAction(invoiceId: string): Promise<Mutation
     .update({ einvoice_status: "NOT_SENT" })
     .eq("organization_id", gate.organizationId)
     .eq("id", invoiceId);
+
+  await writeAudit(gate.supabase, {
+    organizationId: gate.organizationId,
+    userId: gate.userId,
+    action: AUDIT_ACTIONS.EINVOICE_PREPARED,
+    entityType: "invoice",
+    entityId: invoiceId,
+    metadata: { submissionId },
+  });
 
   revalidatePath(`/invoices/${invoiceId}`);
   return { error: null };
