@@ -22,6 +22,7 @@ import { PaymentsSection } from "@/components/payments/PaymentsSection";
 import { prepareEInvoice } from "@/lib/efactura/prepare";
 import { getLatestSubmission } from "@/lib/efactura/queries";
 import { EInvoicePanel } from "@/components/efactura/EInvoicePanel";
+import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
 export const metadata: Metadata = { title: "Factură · BusinessOS" };
 
@@ -90,6 +91,13 @@ export default async function InvoicePage({
               canWrite={canWrite}
             />
           )}
+          <EntityDocuments
+            supabase={supabase}
+            organizationId={membership.id}
+            role={membership.role}
+            entityType="INVOICE"
+            entityId={invoice.id}
+          />
         </>
       )}
 

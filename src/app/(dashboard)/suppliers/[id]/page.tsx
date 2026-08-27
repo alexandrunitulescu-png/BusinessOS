@@ -7,6 +7,7 @@ import { deleteSupplierAction } from "@/lib/crm/mutations";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupplierForm } from "@/components/crm/SupplierForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
+import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
 export const metadata: Metadata = { title: "Furnizor · BusinessOS" };
 
@@ -30,6 +31,14 @@ export default async function SupplierPage({
         description={canWrite ? "Editează datele furnizorului." : "Datele furnizorului."}
       />
       <SupplierForm supplier={supplier} readOnly={!canWrite} />
+
+      <EntityDocuments
+        supabase={supabase}
+        organizationId={membership.id}
+        role={membership.role}
+        entityType="SUPPLIER"
+        entityId={supplier.id}
+      />
 
       {canDelete && (
         <div className="border-t border-slate-200 pt-5">

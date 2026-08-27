@@ -8,6 +8,7 @@ import { partyDisplayName } from "@/lib/crm/types";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ClientForm } from "@/components/crm/ClientForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
+import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
 export const metadata: Metadata = { title: "Client · BusinessOS" };
 
@@ -31,6 +32,14 @@ export default async function ClientPage({
         description={canWrite ? "Editează datele clientului." : "Datele clientului."}
       />
       <ClientForm client={client} readOnly={!canWrite} />
+
+      <EntityDocuments
+        supabase={supabase}
+        organizationId={membership.id}
+        role={membership.role}
+        entityType="CLIENT"
+        entityId={client.id}
+      />
 
       {canDelete && (
         <div className="border-t border-slate-200 pt-5">

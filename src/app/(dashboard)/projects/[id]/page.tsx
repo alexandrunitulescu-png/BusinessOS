@@ -8,6 +8,7 @@ import { listClientOptions } from "@/lib/crm/queries";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProjectForm } from "@/components/projects/ProjectForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
+import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
 export const metadata: Metadata = { title: "Proiect · BusinessOS" };
 
@@ -39,6 +40,14 @@ export default async function ProjectPage({
         clients={clients}
         defaultCurrency={membership.defaultCurrency}
         readOnly={!canWrite}
+      />
+
+      <EntityDocuments
+        supabase={supabase}
+        organizationId={membership.id}
+        role={membership.role}
+        entityType="PROJECT"
+        entityId={project.id}
       />
 
       {canDelete && (

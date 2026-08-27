@@ -46,13 +46,13 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Facturi", href: "/invoices", icon: "file-text", resource: "money", available: true },
       { label: "Cheltuieli", href: "/expenses", icon: "receipt", resource: "money", available: true },
       { label: "Încasări & plăți", href: "/payments", icon: "wallet", resource: "money", available: true },
-      { label: "Rapoarte", href: "/reports", icon: "bar-chart", resource: "money", available: false },
+      { label: "Rapoarte", href: "/reports", icon: "bar-chart", resource: "money", available: true },
     ],
   },
   {
     title: "Organizație",
     items: [
-      { label: "Documente", href: "/documents", icon: "paperclip", resource: "catalog", available: false },
+      { label: "Documente", href: "/documents", icon: "paperclip", resource: "catalog", available: true },
       { label: "Angajați", href: "/employees", icon: "id-card", resource: "employees", available: false },
       { label: "Integrări", href: "/integrations", icon: "plug", resource: "settings", available: true },
       { label: "Setări", href: "/settings", icon: "settings", resource: "settings", available: false },

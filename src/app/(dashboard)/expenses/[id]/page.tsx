@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { DeleteButton } from "@/components/ui/DeleteButton";
 import { ExpenseForm } from "@/components/expenses/ExpenseForm";
 import { PaymentsSection } from "@/components/payments/PaymentsSection";
+import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
 export const metadata: Metadata = { title: "Cheltuială · BusinessOS" };
 
@@ -57,6 +58,14 @@ export default async function ExpensePage({
         canWrite={canWrite}
         canDelete={canDelete}
         labelIn="Plăți"
+      />
+
+      <EntityDocuments
+        supabase={supabase}
+        organizationId={membership.id}
+        role={membership.role}
+        entityType="EXPENSE"
+        entityId={expense.id}
       />
 
       {canDelete && (
