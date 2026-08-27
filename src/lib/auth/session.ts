@@ -1,0 +1,36 @@
+import "server-only";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getUserMemberships } from "@/lib/organizations/queries";
+import { ACTIVE_ORG_COOKIE } from "@/lib/organizations/constants";
+
+/**
+ * Authenticates via `getUser()` (not `getSession()`) so the token is
+ * revalidated against Supabase rather than trusted from local cookie claims.
+ */
+export async function requireUser() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) redirect("/login");
+  return { supabase, user: data.user };
+}
+
+/**
+ * Resolves which organization the current request is acting on. The active-org
+ * cookie is only ever a hint — membership is re-checked against the database
+ * (through RLS) on every call, so a stale or forged cookie value can't grant
+ * access to an organization the user isn't actually in.
+ */
+export async function requireActiveMembership() {
+  const { supabase } = await requireUser();
+  const memberships = await getUserMemberships(supabase);
+
+  if (memberships.length === 0) redirect("/onboarding");
+
+  const cookieStore = await cookies();
+  const activeId = cookieStore.get(ACTIVE_ORG_COOKIE)?.value;
+  const membership = memberships.find((m) => m.id === activeId) ?? memberships[0];
+
+  return { supabase, membership, memberships };
+}
