@@ -5,7 +5,7 @@ import { listProjectOptions } from "@/lib/projects/queries";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ExpenseForm } from "@/components/expenses/ExpenseForm";
 
-export const metadata: Metadata = { title: "Cheltuială nouă · BusinessOS" };
+export const metadata: Metadata = { title: "Cheltuială nouă · BusinessPuls" };
 
 export default async function NewExpensePage() {
   const { supabase, membership } = await requirePageAccess("money", "write", "EXPENSES");

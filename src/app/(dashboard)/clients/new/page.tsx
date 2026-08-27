@@ -3,7 +3,7 @@ import { requirePageAccess } from "@/lib/auth/session";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ClientForm } from "@/components/crm/ClientForm";
 
-export const metadata: Metadata = { title: "Client nou · BusinessOS" };
+export const metadata: Metadata = { title: "Client nou · BusinessPuls" };
 
 export default async function NewClientPage() {
   await requirePageAccess("business", "write", "CRM");

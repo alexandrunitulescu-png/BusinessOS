@@ -12,7 +12,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Table, THead, TH, TBody, TR, TD } from "@/components/ui/Table";
 import { formatMoney, formatNumber } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Produse & servicii · BusinessOS" };
+export const metadata: Metadata = { title: "Produse & servicii · BusinessPuls" };
 
 export default async function CatalogPage({
   searchParams,

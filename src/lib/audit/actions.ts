@@ -17,6 +17,9 @@ export const AUDIT_ACTIONS = {
   DOCUMENT_DELETED: "document.deleted",
   EXPENSE_DELETED: "expense.deleted",
   PAYMENT_DELETED: "payment.deleted",
+  EMPLOYEE_CREATED: "employee.created",
+  EMPLOYEE_UPDATED: "employee.updated",
+  EMPLOYEE_DELETED: "employee.deleted",
 } as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];

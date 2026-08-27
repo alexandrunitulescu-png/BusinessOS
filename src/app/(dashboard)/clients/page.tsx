@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { Table, THead, TH, TBody, TR, TD } from "@/components/ui/Table";
 
-export const metadata: Metadata = { title: "Clienți · BusinessOS" };
+export const metadata: Metadata = { title: "Clienți · BusinessPuls" };
 
 export default async function ClientsPage({
   searchParams,

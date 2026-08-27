@@ -7,7 +7,7 @@ import { KpiCard } from "@/components/dashboard/KpiCard";
 import { Icon } from "@/components/shell/icons";
 import { formatMoney, formatNumber } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Panou principal · BusinessOS" };
+export const metadata: Metadata = { title: "Panou principal · BusinessPuls" };
 
 const ROLE_LABELS: Record<string, string> = {
   OWNER: "Proprietar",

@@ -54,7 +54,7 @@ const ok = (cond, msg) => {
 const deniedWrite = ({ data, error }) => !!error || !data || data.length === 0;
 
 const rnd = Math.random().toString(36).slice(2, 8);
-const mkEmail = (tag) => `rls-test-${tag}-${rnd}@businessos-test.invalid`;
+const mkEmail = (tag) => `rls-test-${tag}-${rnd}@businesspuls-test.invalid`;
 const PASSWORD = `Test-${rnd}-2026!`;
 
 const state = { users: [], orgs: [], objects: [] };
@@ -123,7 +123,7 @@ async function run() {
 
   // ---- 1. SELECT is filtered ------------------------------------------------
   console.log("1) cross-tenant SELECT");
-  for (const table of ["clients", "invoices", "expenses", "documents", "subscriptions", "usage_tracking"]) {
+  for (const table of ["clients", "invoices", "expenses", "documents", "employees", "subscriptions", "usage_tracking"]) {
     const { data, error } = await B.db.from(table).select("*").eq("organization_id", A.orgId);
     ok(!error && Array.isArray(data) && data.length === 0, `B sees 0 rows of A.${table} (${data?.length ?? "err"})`);
   }
@@ -145,6 +145,11 @@ async function run() {
       .insert({ organization_id: A.orgId, status: "DRAFT", issue_date: "2026-08-01", currency: "RON" })
       .select("id");
     ok(!!inv.error, `B INSERT invoice into A rejected (${inv.error?.code ?? "no error!"})`);
+    const emp = await B.db
+      .from("employees")
+      .insert({ organization_id: A.orgId, first_name: "In", last_name: "Jected", status: "ACTIVE" })
+      .select("id");
+    ok(!!emp.error, `B INSERT employee into A rejected (${emp.error?.code ?? "no error!"})`);
   }
 
   // ---- 3. UPDATE of another org's row is a no-op --------------------------

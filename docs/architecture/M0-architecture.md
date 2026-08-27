@@ -1,6 +1,6 @@
 # M0 — Product & System Architecture
 
-**Product**: BusinessOS — multi-tenant SaaS ERP simplu pentru PFA / II / IF / SRL / profesii liberale din România.
+**Product**: BusinessPuls — multi-tenant SaaS ERP simplu pentru PFA / II / IF / SRL / profesii liberale din România.
 **Status**: aprobat și implementat integral. M1–M10 livrate, verificate și deployate în producție (Vercel) — vezi §18. Excepție cunoscută: M7 a livrat doar jumătatea neutră (pipeline country-agnostic); provider-ul real ANAF/SPV rămâne de construit pe baza documentației oficiale (§10).
 
 ---
@@ -48,7 +48,7 @@ Principii:
 
 - **API-first**: toată logica de business trăiește în module server-side (`lib/<domain>`), consumate de UI prin server actions / route handlers `/api/v1/*`. UI nu conține reguli de business.
 - **Multi-tenant din prima zi**: fiecare entitate business are `organization_id`; izolarea se aplică la nivel de bază de date (RLS), nu doar în cod aplicație.
-- **Separare netă**: Core Business OS vs. Romania Tax Module (secțiunea 11), Invoice (obiect de business) vs. PDF (reprezentare) vs. UBL/XML e-Factura (reprezentare fiscală) (secțiunea 10).
+- **Separare netă**: Core BusinessPuls vs. Romania Tax Module (secțiunea 11), Invoice (obiect de business) vs. PDF (reprezentare) vs. UBL/XML e-Factura (reprezentare fiscală) (secțiunea 10).
 - **Event-driven intern, minimal**: acțiuni de business emit evenimente de domeniu (`invoice.issued`, `payment.registered` etc.) consumate de notificări, audit log și (viitor) webhooks — fără automation builder în MVP.
 
 ---
@@ -856,7 +856,7 @@ Proces respectat la fiecare milestone: lint, typecheck, teste, build de producț
 ### Status final (2026-08-27)
 
 Planul M1–M10 este implementat. Aplicația rulează în producție pe Vercel
-(`businessos-virid.vercel.app`), pe Supabase (proiect `npnybekbxbotqxbmvwdj`),
+(`businesspuls.vercel.app`), pe Supabase (proiect `npnybekbxbotqxbmvwdj`),
 cu toate migrările aplicate.
 
 **M10 — ce a livrat concret:**

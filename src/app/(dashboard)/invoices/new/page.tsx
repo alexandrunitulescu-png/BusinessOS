@@ -9,7 +9,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ButtonLink } from "@/components/ui/Button";
 import { InvoiceForm } from "@/components/invoicing/InvoiceForm";
 
-export const metadata: Metadata = { title: "Factură nouă · BusinessOS" };
+export const metadata: Metadata = { title: "Factură nouă · BusinessPuls" };
 
 export default async function NewInvoicePage() {
   const { supabase, membership } = await requirePageAccess("money", "write");

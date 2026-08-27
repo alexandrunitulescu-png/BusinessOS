@@ -3,7 +3,7 @@ import { requirePageAccess } from "@/lib/auth/session";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupplierForm } from "@/components/crm/SupplierForm";
 
-export const metadata: Metadata = { title: "Furnizor nou · BusinessOS" };
+export const metadata: Metadata = { title: "Furnizor nou · BusinessPuls" };
 
 export default async function NewSupplierPage() {
   await requirePageAccess("business", "write", "CRM");

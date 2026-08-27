@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Table, THead, TH, TBody, TR, TD } from "@/components/ui/Table";
 import { OrgPlanSelect } from "@/components/admin/OrgPlanSelect";
 
-export const metadata: Metadata = { title: "Admin platformă · BusinessOS" };
+export const metadata: Metadata = { title: "Admin platformă · BusinessPuls" };
 
 function fmtDate(iso: string | null): string {
   if (!iso) return "—";

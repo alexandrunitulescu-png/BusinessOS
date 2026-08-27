@@ -10,7 +10,7 @@ import { ClientForm } from "@/components/crm/ClientForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
 import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
-export const metadata: Metadata = { title: "Client · BusinessOS" };
+export const metadata: Metadata = { title: "Client · BusinessPuls" };
 
 export default async function ClientPage({
   params,

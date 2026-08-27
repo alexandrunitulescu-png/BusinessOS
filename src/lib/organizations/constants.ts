@@ -1,1 +1,1 @@
-export const ACTIVE_ORG_COOKIE = "businessos_active_org";
+export const ACTIVE_ORG_COOKIE = "businesspuls_active_org";

@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth/session";
 import { getUserMemberships } from "@/lib/organizations/queries";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
 
-export const metadata: Metadata = { title: "Configurare · BusinessOS" };
+export const metadata: Metadata = { title: "Configurare · BusinessPuls" };
 
 export default async function OnboardingPage() {
   const { supabase } = await requireUser();

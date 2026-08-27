@@ -10,7 +10,7 @@ import { ProjectForm } from "@/components/projects/ProjectForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
 import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
-export const metadata: Metadata = { title: "Proiect · BusinessOS" };
+export const metadata: Metadata = { title: "Proiect · BusinessPuls" };
 
 export default async function ProjectPage({
   params,

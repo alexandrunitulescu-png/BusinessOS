@@ -19,7 +19,7 @@ import { DocumentUpload } from "@/components/documents/DocumentUpload";
 import { Icon } from "@/components/shell/icons";
 import { formatDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Documente · BusinessOS" };
+export const metadata: Metadata = { title: "Documente · BusinessPuls" };
 
 function isType(v: string | undefined): v is DocumentEntityType {
   return !!v && (DOCUMENT_ENTITY_TYPES as readonly string[]).includes(v);

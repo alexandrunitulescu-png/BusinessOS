@@ -8,7 +8,7 @@ import { MonthlyBarChart } from "@/components/reports/MonthlyBarChart";
 import { Table, THead, TH, TBody, TR, TD } from "@/components/ui/Table";
 import { formatMoney, formatNumber, formatDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Rapoarte · BusinessOS" };
+export const metadata: Metadata = { title: "Rapoarte · BusinessPuls" };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 

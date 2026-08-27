@@ -4,7 +4,7 @@ import { listClientOptions } from "@/lib/crm/queries";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProjectForm } from "@/components/projects/ProjectForm";
 
-export const metadata: Metadata = { title: "Proiect nou · BusinessOS" };
+export const metadata: Metadata = { title: "Proiect nou · BusinessPuls" };
 
 export default async function NewProjectPage() {
   const { supabase, membership } = await requirePageAccess("business", "write", "PROJECTS");

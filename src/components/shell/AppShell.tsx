@@ -91,7 +91,7 @@ function SidebarPanel({
         <span className="grid h-7 w-7 place-items-center rounded-md bg-slate-900 text-xs font-bold text-white">
           B
         </span>
-        <span className="text-sm font-semibold text-slate-900">BusinessOS</span>
+        <span className="text-sm font-semibold text-slate-900">BusinessPuls</span>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">

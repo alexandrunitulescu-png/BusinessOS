@@ -55,7 +55,7 @@ export const NAV_GROUPS: NavGroup[] = [
     title: "Organizație",
     items: [
       { label: "Documente", href: "/documents", icon: "paperclip", resource: "catalog", feature: "DOCUMENTS", available: true },
-      { label: "Angajați", href: "/employees", icon: "id-card", resource: "employees", feature: "EMPLOYEES", available: false },
+      { label: "Angajați", href: "/employees", icon: "id-card", resource: "employees", feature: "EMPLOYEES", available: true },
       { label: "Integrări", href: "/integrations", icon: "plug", resource: "settings", feature: "EFACTURA", available: true },
       { label: "Setări", href: "/settings", icon: "settings", resource: "settings", feature: null, available: true },
     ],

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Document · BusinessOS" };
+export const metadata: Metadata = { title: "Document · BusinessPuls" };
 
 /**
  * Bare layout for printable documents — no app shell. The page is styled for

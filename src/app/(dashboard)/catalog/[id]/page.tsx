@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { ItemForm } from "@/components/catalog/ItemForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
 
-export const metadata: Metadata = { title: "Articol · BusinessOS" };
+export const metadata: Metadata = { title: "Articol · BusinessPuls" };
 
 export default async function ItemPage({
   params,

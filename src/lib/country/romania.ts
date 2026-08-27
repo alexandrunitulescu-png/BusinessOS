@@ -32,6 +32,42 @@ export function validateRomanianCui(raw: string): TaxIdValidation {
     : { valid: false, normalized, message: "Cifra de control a CUI-ului nu este validă." };
 }
 
+/**
+ * Control-digit weights for the Romanian CNP (Cod Numeric Personal). Like the
+ * CUI checksum this is a public formal-validation algorithm, not an external
+ * lookup — it does not confirm the person exists, only that the number is
+ * well-formed. Used by the employees module (M12).
+ */
+const CNP_WEIGHTS = "279146358279";
+
+export function validateRomanianCnp(raw: string): TaxIdValidation {
+  const cnp = raw.trim().replace(/\s+/g, "");
+  const normalized = cnp;
+
+  if (!/^\d{13}$/.test(cnp)) {
+    return { valid: false, normalized, message: "CNP-ul trebuie să aibă exact 13 cifre." };
+  }
+  if (cnp[0] === "0") {
+    return { valid: false, normalized, message: "Prima cifră a CNP-ului nu poate fi 0." };
+  }
+
+  // digits 2–7 = birth date YYMMDD — a light sanity check, not a calendar proof.
+  const month = Number(cnp.slice(3, 5));
+  const day = Number(cnp.slice(5, 7));
+  if (month < 1 || month > 12 || day < 1 || day > 31) {
+    return { valid: false, normalized, message: "Data nașterii din CNP este invalidă." };
+  }
+
+  let sum = 0;
+  for (let i = 0; i < 12; i++) sum += Number(cnp[i]) * Number(CNP_WEIGHTS[i]);
+  let control = sum % 11;
+  if (control === 10) control = 1;
+
+  return control === Number(cnp[12])
+    ? { valid: true, normalized }
+    : { valid: false, normalized, message: "Cifra de control a CNP-ului nu este validă." };
+}
+
 const RO_INVOICE_LEGAL_FIELDS: LegalFieldRequirement[] = [
   { field: "seller.taxId", label: "CUI-ul emitentului", required: true },
   { field: "seller.legalName", label: "Denumirea legală a emitentului", required: true },

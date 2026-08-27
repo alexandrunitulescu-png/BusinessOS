@@ -24,7 +24,7 @@ import { getLatestSubmission } from "@/lib/efactura/queries";
 import { EInvoicePanel } from "@/components/efactura/EInvoicePanel";
 import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
-export const metadata: Metadata = { title: "Factură · BusinessOS" };
+export const metadata: Metadata = { title: "Factură · BusinessPuls" };
 
 export default async function InvoicePage({
   params,

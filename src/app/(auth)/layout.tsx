@@ -4,7 +4,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <span className="text-lg font-semibold tracking-tight text-slate-900">
-            BusinessOS
+            BusinessPuls
           </span>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

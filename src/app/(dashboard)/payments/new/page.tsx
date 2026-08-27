@@ -14,7 +14,7 @@ import { invoiceNumberLabel } from "@/lib/invoicing/types";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { PaymentForm } from "@/components/payments/PaymentForm";
 
-export const metadata: Metadata = { title: "Plată nouă · BusinessOS" };
+export const metadata: Metadata = { title: "Plată nouă · BusinessPuls" };
 
 const sum = (rows: { amount: number }[]) => rows.reduce((s, r) => s + r.amount, 0);
 

@@ -3,7 +3,7 @@ import { requirePageAccess } from "@/lib/auth/session";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ItemForm } from "@/components/catalog/ItemForm";
 
-export const metadata: Metadata = { title: "Articol nou · BusinessOS" };
+export const metadata: Metadata = { title: "Articol nou · BusinessPuls" };
 
 export default async function NewItemPage() {
   const { membership } = await requirePageAccess("catalog", "write", "CRM");

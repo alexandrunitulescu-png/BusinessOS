@@ -16,7 +16,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Table, THead, TH, TBody, TR, TD } from "@/components/ui/Table";
 import { formatMoney, formatDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Proiecte · BusinessOS" };
+export const metadata: Metadata = { title: "Proiecte · BusinessPuls" };
 
 const STATUS_TONE: Record<ProjectStatus, "neutral" | "green" | "amber" | "blue" | "red"> = {
   PLANNED: "neutral",

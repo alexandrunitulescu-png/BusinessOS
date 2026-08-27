@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BusinessOS",
+  title: "BusinessPuls",
   description: "Administrare simplă a afacerii pentru PFA, II, IF și SRL-uri din România.",
 };
 

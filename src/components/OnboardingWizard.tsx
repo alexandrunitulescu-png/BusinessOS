@@ -182,7 +182,7 @@ export function OnboardingWizard() {
 
         {step === 5 && (
           <p className="text-sm text-slate-600">
-            BusinessOS este pregătit. Apasă „Finalizează” ca să intri în cont.
+            BusinessPuls este pregătit. Apasă „Finalizează” ca să intri în cont.
           </p>
         )}
 

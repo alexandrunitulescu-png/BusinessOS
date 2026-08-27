@@ -6,7 +6,7 @@ import { getCountryModule } from "@/lib/country";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Badge } from "@/components/ui/Badge";
 
-export const metadata: Metadata = { title: "Integrări · BusinessOS" };
+export const metadata: Metadata = { title: "Integrări · BusinessPuls" };
 
 const STATUS_LABELS: Record<string, string> = {
   NOT_CONNECTED: "Neconectat",

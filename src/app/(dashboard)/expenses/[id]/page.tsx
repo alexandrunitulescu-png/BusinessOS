@@ -13,7 +13,7 @@ import { ExpenseForm } from "@/components/expenses/ExpenseForm";
 import { PaymentsSection } from "@/components/payments/PaymentsSection";
 import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
-export const metadata: Metadata = { title: "Cheltuială · BusinessOS" };
+export const metadata: Metadata = { title: "Cheltuială · BusinessPuls" };
 
 export default async function ExpensePage({
   params,

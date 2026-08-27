@@ -9,7 +9,7 @@ import { invoiceNumberLabel } from "@/lib/invoicing/types";
 import { InvoiceDocument } from "@/components/invoicing/InvoiceDocument";
 import { PrintButton } from "@/components/invoicing/PrintButton";
 
-export const metadata: Metadata = { title: "Factură · BusinessOS" };
+export const metadata: Metadata = { title: "Factură · BusinessPuls" };
 
 export default async function InvoicePrintPage({
   params,
@@ -43,7 +43,7 @@ export default async function InvoicePrintPage({
       </div>
       <InvoiceDocument invoice={invoice} client={client} org={org} />
       <p className="mt-3 text-center text-xs text-slate-400 print:hidden">
-        {invoiceNumberLabel(invoice)} · generat din BusinessOS
+        {invoiceNumberLabel(invoice)} · generat din BusinessPuls
       </p>
     </div>
   );

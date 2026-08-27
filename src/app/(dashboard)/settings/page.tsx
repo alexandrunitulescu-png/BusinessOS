@@ -21,7 +21,7 @@ import { PlanSwitcher } from "@/components/billing/PlanSwitcher";
 import { Icon } from "@/components/shell/icons";
 import { formatNumber, formatMoney } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Setări · BusinessOS" };
+export const metadata: Metadata = { title: "Setări · BusinessPuls" };
 
 function daysUntil(iso: string | null): number | null {
   if (!iso) return null;

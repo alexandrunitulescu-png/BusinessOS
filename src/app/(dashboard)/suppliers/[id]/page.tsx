@@ -9,7 +9,7 @@ import { SupplierForm } from "@/components/crm/SupplierForm";
 import { DeleteButton } from "@/components/ui/DeleteButton";
 import { EntityDocuments } from "@/components/documents/EntityDocuments";
 
-export const metadata: Metadata = { title: "Furnizor · BusinessOS" };
+export const metadata: Metadata = { title: "Furnizor · BusinessPuls" };
 
 export default async function SupplierPage({
   params,
