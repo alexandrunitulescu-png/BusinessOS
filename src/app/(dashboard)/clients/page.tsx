@@ -75,7 +75,7 @@ export default async function ClientsPage({
             <TBody>
               {clients.map((client) => (
                 <TR key={client.id}>
-                  <TD className="font-medium text-slate-900">
+                  <TD className="font-medium text-text">
                     <Link href={`/clients/${client.id}`} className="hover:underline">
                       {partyDisplayName(client)}
                     </Link>

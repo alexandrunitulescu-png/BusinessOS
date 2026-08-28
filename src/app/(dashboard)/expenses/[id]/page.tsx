@@ -69,9 +69,9 @@ export default async function ExpensePage({
       />
 
       {canDelete && (
-        <div className="border-t border-slate-200 pt-5">
-          <p className="mb-2 text-sm font-medium text-slate-700">Șterge cheltuiala</p>
-          <p className="mb-3 text-sm text-slate-500">
+        <div className="border-t border-border pt-5">
+          <p className="mb-2 text-sm font-medium text-text">Șterge cheltuiala</p>
+          <p className="mb-3 text-sm text-text-muted">
             Plățile asociate sunt șterse odată cu ea.
           </p>
           <DeleteButton

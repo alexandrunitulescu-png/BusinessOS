@@ -75,15 +75,15 @@ export default async function PaymentsPage({
                     </Badge>
                   </TD>
                   <TD>
-                    <Link href={p.targetHref} className="text-slate-700 hover:underline">
+                    <Link href={p.targetHref} className="text-text hover:underline">
                       {p.targetLabel}
                     </Link>
-                    {p.reference ? <span className="text-slate-400"> · {p.reference}</span> : null}
+                    {p.reference ? <span className="text-text-subtle"> · {p.reference}</span> : null}
                   </TD>
                   <TD>{PAYMENT_METHOD_LABELS[p.paymentMethod]}</TD>
                   <TD
                     className={`text-right tabular-nums ${
-                      p.direction === "IN" ? "text-emerald-700" : "text-amber-700"
+                      p.direction === "IN" ? "text-positive" : "text-warning"
                     }`}
                   >
                     {p.direction === "IN" ? "+" : "−"}

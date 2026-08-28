@@ -34,14 +34,14 @@ function Meter({ label, used, limit }: { label: string; used: number; limit: num
   return (
     <div>
       <div className="flex justify-between text-sm">
-        <span className="text-slate-500">{label}</span>
-        <span className={`font-medium ${over ? "text-red-600" : "text-slate-900"}`}>
+        <span className="text-text-muted">{label}</span>
+        <span className={`font-medium ${over ? "text-critical" : "text-text"}`}>
           {formatNumber(used)} / {limit === null ? "∞" : formatNumber(limit)}
         </span>
       </div>
-      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-100">
+      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-sunken">
         <div
-          className={`h-full ${over ? "bg-red-500" : "bg-slate-800"}`}
+          className={`h-full ${over ? "bg-critical" : "bg-brand"}`}
           style={{ width: `${limit === null ? 4 : pct}%` }}
         />
       </div>
@@ -71,7 +71,7 @@ export default async function SettingsPage({
     return (
       <div className="mx-auto max-w-3xl">
         <PageHeader title="Setări" />
-        <p className="mt-4 text-sm text-slate-500">Nu am putut încărca abonamentul.</p>
+        <p className="mt-4 text-sm text-text-muted">Nu am putut încărca abonamentul.</p>
       </div>
     );
   }
@@ -92,19 +92,19 @@ export default async function SettingsPage({
       />
 
       {gatedFeature && !features[gatedFeature] && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <div className="rounded-lg border border-warning bg-warning-soft px-4 py-3 text-sm text-warning">
           Funcționalitatea <strong>{FEATURE_LABELS[gatedFeature]}</strong> nu este inclusă în planul{" "}
           {plan.name}. Alege un plan care o include mai jos.
         </div>
       )}
 
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
+      <section className="rounded-xl border border-border bg-surface-raised p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold text-slate-900">Plan curent</h2>
-            <p className="mt-0.5 text-lg font-semibold text-slate-900">
+            <h2 className="text-sm font-semibold text-text">Plan curent</h2>
+            <p className="mt-0.5 text-lg font-semibold text-text">
               {plan.name}
-              <span className="ml-2 text-sm font-normal text-slate-500">
+              <span className="ml-2 text-sm font-normal text-text-muted">
                 {plan.price ? `${formatMoney(plan.price, plan.currency)}/lună` : "gratuit"}
               </span>
             </p>
@@ -114,7 +114,7 @@ export default async function SettingsPage({
               {SUBSCRIPTION_STATUS_LABELS[subscription.status] ?? subscription.status}
             </Badge>
             {trialDays !== null && (
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-text-muted">
                 {trialDays > 0 ? `${trialDays} zile rămase` : "probă expirată"}
               </p>
             )}
@@ -128,13 +128,13 @@ export default async function SettingsPage({
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="text-sm font-semibold text-slate-900">Funcționalități</h2>
+      <section className="rounded-xl border border-border bg-surface-raised p-5">
+        <h2 className="text-sm font-semibold text-text">Funcționalități</h2>
         <ul className="mt-3 grid gap-1.5 text-sm sm:grid-cols-2">
           {FEATURE_KEYS.map((key) => (
             <li
               key={key}
-              className={`flex items-center gap-2 ${features[key] ? "text-slate-700" : "text-slate-300"}`}
+              className={`flex items-center gap-2 ${features[key] ? "text-text" : "text-text-subtle"}`}
             >
               <Icon name={features[key] ? "plus" : "close"} className="h-4 w-4" />
               {FEATURE_LABELS[key]}
@@ -144,15 +144,15 @@ export default async function SettingsPage({
       </section>
 
       {plan.code === "INTERNAL" ? (
-        <section className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-slate-900">Planuri disponibile</h2>
-          <p className="mt-2 text-sm text-slate-500">
+        <section className="rounded-xl border border-border bg-surface-raised p-5">
+          <h2 className="text-sm font-semibold text-text">Planuri disponibile</h2>
+          <p className="mt-2 text-sm text-text-muted">
             Cont intern — acces complet, fără limite, gestionat de administratorul platformei.
           </p>
         </section>
       ) : (
         <section>
-          <h2 className="mb-3 text-sm font-semibold text-slate-900">Planuri disponibile</h2>
+          <h2 className="mb-3 text-sm font-semibold text-text">Planuri disponibile</h2>
           <PlanSwitcher plans={plans} currentCode={plan.code} canManage={canManage} />
         </section>
       )}

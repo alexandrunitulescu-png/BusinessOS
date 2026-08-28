@@ -22,7 +22,17 @@ export type IconName =
   | "close"
   | "chevron-down"
   | "logout"
-  | "plus";
+  | "plus"
+  | "sun"
+  | "moon"
+  | "bell"
+  | "check-square"
+  | "zap"
+  | "activity"
+  | "trending-up"
+  | "trending-down"
+  | "target"
+  | "alert-triangle";
 
 const PATHS: Record<IconName, React.ReactNode> = {
   home: <path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5" />,
@@ -82,6 +92,37 @@ const PATHS: Record<IconName, React.ReactNode> = {
   "chevron-down": <path d="m6 9 6 6 6-6" />,
   logout: <path d="M15 12H4M11 8l-4 4 4 4M14 4h5v16h-5" />,
   plus: <path d="M12 5v14M5 12h14" />,
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </>
+  ),
+  moon: <path d="M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z" />,
+  bell: <path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6M10 20a2 2 0 0 0 4 0" />,
+  "check-square": (
+    <>
+      <path d="M3.5 5A1.5 1.5 0 0 1 5 3.5h14A1.5 1.5 0 0 1 20.5 5v14a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z" />
+      <path d="m8 12 3 3 5-6" />
+    </>
+  ),
+  zap: <path d="M13 2 4 14h7l-1 8 9-12h-7z" />,
+  activity: <path d="M3 12h4l3 8 4-16 3 8h4" />,
+  "trending-up": <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />,
+  "trending-down": <path d="M3 7l6 6 4-4 8 8M15 17h6v-6" />,
+  target: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="0.5" fill="currentColor" stroke="none" />
+    </>
+  ),
+  "alert-triangle": (
+    <>
+      <path d="M12 3.5 21 19H3z" />
+      <path d="M12 9v4.5M12 16.5h.01" />
+    </>
+  ),
 };
 
 export function Icon({

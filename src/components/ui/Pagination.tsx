@@ -29,12 +29,12 @@ export function Pagination({
   };
 
   const linkClass =
-    "rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50";
-  const disabledClass = "rounded-md border border-slate-200 px-3 py-1.5 text-sm text-slate-300";
+    "rounded-md border border-border-strong bg-surface-raised px-3 py-1.5 text-sm font-medium text-text hover:bg-surface-sunken";
+  const disabledClass = "rounded-md border border-border px-3 py-1.5 text-sm text-text-subtle";
 
   return (
     <div className="flex items-center justify-between">
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-text-muted">
         Pagina {page} din {totalPages} · {total} rezultate
       </p>
       <div className="flex gap-2">

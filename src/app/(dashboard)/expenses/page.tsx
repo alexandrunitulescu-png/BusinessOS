@@ -67,12 +67,12 @@ export default async function ExpensesPage({
           defaultValue={search}
           placeholder="Caută după descriere sau categorie"
           aria-label="Caută cheltuieli"
-          className="w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-500"
+          className="w-full max-w-xs rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm text-text outline-none focus:border-brand"
         />
         <select
           name="status"
           defaultValue={status ?? ""}
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-500"
+          className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm text-text outline-none focus:border-brand"
         >
           <option value="">Toate</option>
           {PAYMENT_STATUSES.map((s) => (
@@ -83,7 +83,7 @@ export default async function ExpensesPage({
         </select>
         <button
           type="submit"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm font-medium text-text hover:bg-surface-sunken"
         >
           Filtrează
         </button>
@@ -121,7 +121,7 @@ export default async function ExpensesPage({
             <TBody>
               {expenses.map((exp) => (
                 <TR key={exp.id}>
-                  <TD className="font-medium text-slate-900">
+                  <TD className="font-medium text-text">
                     <Link href={`/expenses/${exp.id}`} className="hover:underline">
                       {exp.description || exp.category || "Cheltuială"}
                     </Link>

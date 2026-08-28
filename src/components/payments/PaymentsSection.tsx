@@ -26,9 +26,9 @@ export function PaymentsSection({
   const remaining = Math.max(totalDue - paid, 0);
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5">
+    <section className="rounded-xl border border-border bg-surface-raised p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-slate-900">{labelIn}</h2>
+        <h2 className="text-sm font-semibold text-text">{labelIn}</h2>
         {canWrite && remaining > 0.004 && (
           <ButtonLink href={addHref} size="sm">
             Adaugă
@@ -37,31 +37,31 @@ export function PaymentsSection({
       </div>
 
       <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm">
-        <span className="text-slate-500">
-          Plătit: <span className="font-medium text-slate-900">{formatMoney(paid, currency)}</span>
+        <span className="text-text-muted">
+          Plătit: <span className="font-medium text-text">{formatMoney(paid, currency)}</span>
         </span>
-        <span className="text-slate-500">
-          Din: <span className="font-medium text-slate-900">{formatMoney(totalDue, currency)}</span>
+        <span className="text-text-muted">
+          Din: <span className="font-medium text-text">{formatMoney(totalDue, currency)}</span>
         </span>
-        <span className="text-slate-500">
+        <span className="text-text-muted">
           Rămas:{" "}
-          <span className={`font-medium ${remaining > 0.004 ? "text-amber-600" : "text-emerald-600"}`}>
+          <span className={`font-medium ${remaining > 0.004 ? "text-warning" : "text-positive"}`}>
             {formatMoney(remaining, currency)}
           </span>
         </span>
       </div>
 
       {payments.length === 0 ? (
-        <p className="mt-3 text-sm text-slate-400">Nicio plată înregistrată.</p>
+        <p className="mt-3 text-sm text-text-subtle">Nicio plată înregistrată.</p>
       ) : (
-        <ul className="mt-3 divide-y divide-slate-100">
+        <ul className="mt-3 divide-y divide-border">
           {payments.map((p) => (
             <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5 text-sm">
               <div>
-                <span className="font-medium text-slate-900 tabular-nums">
+                <span className="font-medium text-text tabular-nums">
                   {formatMoney(p.amount, p.currency)}
                 </span>
-                <span className="ml-2 text-slate-500">
+                <span className="ml-2 text-text-muted">
                   {formatDate(p.paymentDate)} · {PAYMENT_METHOD_LABELS[p.paymentMethod]}
                   {p.reference ? ` · ${p.reference}` : ""}
                 </span>

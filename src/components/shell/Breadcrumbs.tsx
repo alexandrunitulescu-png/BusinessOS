@@ -42,10 +42,10 @@ export function Breadcrumbs({
           const isLast = index === crumbs.length - 1;
           return (
             <li key={crumb.href} className="flex min-w-0 items-center gap-1.5">
-              {index > 0 && <span className="text-slate-300">/</span>}
+              {index > 0 && <span className="text-text-subtle">/</span>}
               {isLast ? (
                 <span
-                  className={`truncate font-medium text-slate-900 ${
+                  className={`truncate font-medium text-text ${
                     crumb.capitalize ? "capitalize" : ""
                   }`}
                 >
@@ -54,7 +54,7 @@ export function Breadcrumbs({
               ) : (
                 <Link
                   href={crumb.href}
-                  className={`truncate text-slate-500 hover:text-slate-900 ${
+                  className={`truncate text-text-muted hover:text-text ${
                     crumb.capitalize ? "capitalize" : ""
                   }`}
                 >

@@ -1,11 +1,11 @@
 type Tone = "neutral" | "green" | "amber" | "red" | "blue";
 
 const TONES: Record<Tone, string> = {
-  neutral: "bg-slate-100 text-slate-600",
-  green: "bg-emerald-50 text-emerald-700",
-  amber: "bg-amber-50 text-amber-700",
-  red: "bg-red-50 text-red-700",
-  blue: "bg-blue-50 text-blue-700",
+  neutral: "bg-surface-sunken text-text-muted",
+  green: "bg-positive-soft text-positive",
+  amber: "bg-warning-soft text-warning",
+  red: "bg-critical-soft text-critical",
+  blue: "bg-info-soft text-info",
 };
 
 export function Badge({

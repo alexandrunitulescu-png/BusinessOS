@@ -68,11 +68,11 @@ export function InvoiceActions({
       </div>
 
       {status === "DRAFT" && confirmIssue && (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-text-muted">
           După emitere, factura primește un număr definitiv și nu mai poate fi modificată.
         </p>
       )}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-critical">{error}</p>}
     </div>
   );
 }

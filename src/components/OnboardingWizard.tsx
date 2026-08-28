@@ -76,13 +76,13 @@ export function OnboardingWizard() {
           <div
             key={s}
             className={`h-1.5 flex-1 rounded-full ${
-              s <= step ? "bg-slate-900" : "bg-slate-200"
+              s <= step ? "bg-brand" : "bg-surface-sunken"
             }`}
           />
         ))}
       </div>
 
-      <h1 className="mb-6 text-lg font-semibold text-slate-900">{STEP_TITLES[step - 1]}</h1>
+      <h1 className="mb-6 text-lg font-semibold text-text">{STEP_TITLES[step - 1]}</h1>
 
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {step === 1 && (
@@ -90,7 +90,7 @@ export function OnboardingWizard() {
             {ENTITY_TYPES.map((type) => (
               <label
                 key={type}
-                className="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm has-[:checked]:border-slate-900 has-[:checked]:bg-slate-50"
+                className="flex cursor-pointer items-center gap-3 rounded-md border border-border px-3 py-2 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft"
               >
                 <input type="radio" value={type} {...register("entityType")} />
                 {ENTITY_LABELS[type]}
@@ -181,19 +181,19 @@ export function OnboardingWizard() {
         )}
 
         {step === 5 && (
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-text-muted">
             BusinessPuls este pregătit. Apasă „Finalizează” ca să intri în cont.
           </p>
         )}
 
-        {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+        {serverError && <p className="text-sm text-critical">{serverError}</p>}
 
         <div className="mt-2 flex justify-between">
           {step > 1 ? (
             <button
               type="button"
               onClick={goBack}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700"
+              className="rounded-md border border-border-strong px-3 py-2 text-sm font-medium text-text"
             >
               Înapoi
             </button>
@@ -205,7 +205,7 @@ export function OnboardingWizard() {
             <button
               type="button"
               onClick={goNext}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+              className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white"
             >
               Continuă
             </button>
@@ -213,7 +213,7 @@ export function OnboardingWizard() {
             <button
               type="submit"
               disabled={isPending}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+              className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
             >
               {isPending ? "Se creează…" : "Finalizează"}
             </button>
@@ -225,7 +225,7 @@ export function OnboardingWizard() {
 }
 
 const inputClass =
-  "rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-500";
+  "rounded-md border border-border-strong px-3 py-2 text-sm outline-none focus:border-brand";
 
 function Field({
   label,
@@ -238,9 +238,9 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium text-slate-700">{label}</span>
+      <span className="font-medium text-text">{label}</span>
       {children}
-      {error && <span className="text-xs text-red-600">{error}</span>}
+      {error && <span className="text-xs text-critical">{error}</span>}
     </label>
   );
 }

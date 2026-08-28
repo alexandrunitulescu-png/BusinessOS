@@ -54,7 +54,7 @@ export default async function InvoicePage({
       {isDraft && canWrite ? (
         <>
           <DraftEditor invoice={invoice} supabase={supabase} organizationId={membership.id} defaultCurrency={membership.defaultCurrency} />
-          <div className="border-t border-slate-200 pt-5">
+          <div className="border-t border-border pt-5">
             <InvoiceActions invoiceId={invoice.id} status={invoice.status} />
           </div>
         </>
@@ -65,7 +65,7 @@ export default async function InvoicePage({
               href={`/print/invoice/${invoice.id}`}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border-strong bg-surface-raised px-3.5 py-2 text-sm font-medium text-text hover:bg-surface-sunken"
             >
               Vezi / printează PDF
             </a>
@@ -102,9 +102,9 @@ export default async function InvoicePage({
       )}
 
       {canDelete && (
-        <div className="border-t border-slate-200 pt-5">
-          <p className="mb-2 text-sm font-medium text-slate-700">Șterge factura</p>
-          <p className="mb-3 text-sm text-slate-500">
+        <div className="border-t border-border pt-5">
+          <p className="mb-2 text-sm font-medium text-text">Șterge factura</p>
+          <p className="mb-3 text-sm text-text-muted">
             {isDraft
               ? "Ciorna va fi ștearsă definitiv."
               : "Ștergerea unei facturi emise afectează numerotarea fiscală — folosește „Anulează factura” în locul ștergerii ori de câte ori e posibil."}
@@ -165,7 +165,7 @@ async function PrintPreview({
   ]);
   if (!org) return null;
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200">
+    <div className="overflow-x-auto rounded-xl border border-border">
       <InvoiceDocument invoice={invoice} client={client} org={org} />
     </div>
   );

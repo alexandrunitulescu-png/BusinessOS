@@ -16,7 +16,7 @@ export function OrganizationSwitcher({
   if (memberships.length <= 1) {
     const only = memberships[0];
     return (
-      <div className="truncate text-sm font-medium text-slate-900">
+      <div className="truncate text-sm font-medium text-text">
         {only?.tradeName || only?.legalName}
       </div>
     );
@@ -32,7 +32,7 @@ export function OrganizationSwitcher({
           switchActiveOrganizationAction(organizationId);
         });
       }}
-      className="w-full truncate rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm font-medium text-slate-900 outline-none"
+      className="w-full truncate rounded-md border border-border-strong bg-surface-raised px-2 py-1.5 text-sm font-medium text-text outline-none"
     >
       {memberships.map((m) => (
         <option key={m.id} value={m.id}>

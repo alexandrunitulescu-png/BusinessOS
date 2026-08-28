@@ -58,18 +58,18 @@ export default async function AdminPage({
           <TBody>
             {orgs.map((o) => (
               <TR key={o.id}>
-                <TD className="font-medium text-slate-900">{o.tradeName || o.legalName}</TD>
+                <TD className="font-medium text-text">{o.tradeName || o.legalName}</TD>
                 <TD>{o.cui ?? "—"}</TD>
                 <TD>
                   <span className="block">{o.ownerEmail ?? "—"}</span>
-                  {o.ownerName && <span className="block text-xs text-slate-400">{o.ownerName}</span>}
+                  {o.ownerName && <span className="block text-xs text-text-subtle">{o.ownerName}</span>}
                 </TD>
                 <TD>
                   <Badge tone={o.subscriptionStatus === "ACTIVE" ? "green" : "amber"}>
                     {SUBSCRIPTION_STATUS_LABELS[o.subscriptionStatus ?? ""] ?? o.subscriptionStatus ?? "—"}
                   </Badge>
                 </TD>
-                <TD className="text-slate-500">{fmtDate(o.createdAt)}</TD>
+                <TD className="text-text-muted">{fmtDate(o.createdAt)}</TD>
                 <TD>
                   <OrgPlanSelect
                     organizationId={o.id}

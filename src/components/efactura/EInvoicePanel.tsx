@@ -33,9 +33,9 @@ export function EInvoicePanel({
   const isPrepared = submission?.status === "NOT_SENT";
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5">
+    <section className="rounded-xl border border-border bg-surface-raised p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-slate-900">e-Factura (RO)</h2>
+        <h2 className="text-sm font-semibold text-text">e-Factura (RO)</h2>
         {submission ? (
           <Badge
             tone={
@@ -54,7 +54,7 @@ export function EInvoicePanel({
       </div>
 
       {!countrySupported ? (
-        <p className="mt-3 text-sm text-slate-500">
+        <p className="mt-3 text-sm text-text-muted">
           Organizația nu are o țară cu modul de e-Factura.
         </p>
       ) : (
@@ -62,23 +62,23 @@ export function EInvoicePanel({
           {validation && (
             <div className="mt-3 text-sm">
               {validation.valid ? (
-                <p className="text-emerald-700">
+                <p className="text-positive">
                   ✓ Factura trece validarea locală și XML-ul UBL poate fi generat.
                 </p>
               ) : (
-                <p className="text-red-600">
+                <p className="text-critical">
                   Factura nu trece validarea pentru e-Factura:
                 </p>
               )}
               {errors.length > 0 && (
-                <ul className="mt-1.5 list-disc pl-5 text-red-600">
+                <ul className="mt-1.5 list-disc pl-5 text-critical">
                   {errors.map((issue, i) => (
                     <li key={i}>{issue.message}</li>
                   ))}
                 </ul>
               )}
               {warnings.length > 0 && (
-                <ul className="mt-1.5 list-disc pl-5 text-amber-600">
+                <ul className="mt-1.5 list-disc pl-5 text-warning">
                   {warnings.map((issue, i) => (
                     <li key={i}>{issue.message}</li>
                   ))}
@@ -98,7 +98,7 @@ export function EInvoicePanel({
             </div>
           )}
 
-          <p className="mt-4 text-xs text-slate-400">
+          <p className="mt-4 text-xs text-text-subtle">
             Trimiterea electronică către ANAF se activează după configurarea conexiunii pe baza
             documentației oficiale. Până atunci poți descărca XML-ul UBL și îl încarci manual în SPV.
           </p>

@@ -74,7 +74,7 @@ export default async function SuppliersPage({
             <TBody>
               {suppliers.map((supplier) => (
                 <TR key={supplier.id}>
-                  <TD className="font-medium text-slate-900">
+                  <TD className="font-medium text-text">
                     <Link href={`/suppliers/${supplier.id}`} className="hover:underline">
                       {supplier.companyName}
                     </Link>

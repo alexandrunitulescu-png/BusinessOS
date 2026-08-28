@@ -2,7 +2,7 @@
 
 export function Table({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+    <div className="overflow-x-auto rounded-xl border border-border bg-surface-raised">
       <table className="w-full min-w-[36rem] text-sm">{children}</table>
     </div>
   );
@@ -10,7 +10,7 @@ export function Table({ children }: { children: React.ReactNode }) {
 
 export function THead({ children }: { children: React.ReactNode }) {
   return (
-    <thead className="border-b border-slate-200 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <thead className="border-b border-border bg-surface-sunken text-left text-xs font-semibold uppercase tracking-wide text-text-muted">
       {children}
     </thead>
   );
@@ -27,7 +27,7 @@ export function TH({
 }
 
 export function TBody({ children }: { children: React.ReactNode }) {
-  return <tbody className="divide-y divide-slate-100">{children}</tbody>;
+  return <tbody className="divide-y divide-border">{children}</tbody>;
 }
 
 export function TR({
@@ -37,7 +37,7 @@ export function TR({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <tr className={`hover:bg-slate-50/70 ${className}`}>{children}</tr>;
+  return <tr className={`hover:bg-surface-sunken ${className}`}>{children}</tr>;
 }
 
 export function TD({
@@ -47,5 +47,5 @@ export function TD({
   children?: React.ReactNode;
   className?: string;
 }) {
-  return <td className={`px-4 py-3 align-middle text-slate-700 ${className}`}>{children}</td>;
+  return <td className={`px-4 py-3 align-middle text-text ${className}`}>{children}</td>;
 }

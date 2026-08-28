@@ -32,9 +32,9 @@ export default async function ItemPage({
       <ItemForm item={item} defaultCurrency={membership.defaultCurrency} readOnly={!canWrite} />
 
       {canDelete && (
-        <div className="border-t border-slate-200 pt-5">
-          <p className="mb-2 text-sm font-medium text-slate-700">Șterge articolul</p>
-          <p className="mb-3 text-sm text-slate-500">
+        <div className="border-t border-border pt-5">
+          <p className="mb-2 text-sm font-medium text-text">Șterge articolul</p>
+          <p className="mb-3 text-sm text-text-muted">
             Acțiunea este permanentă. Facturile care folosesc deja acest articol rămân neschimbate.
           </p>
           <DeleteButton action={deleteItemAction.bind(null, item.id)} label="Șterge articolul" />

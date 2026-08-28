@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/shell/icons";
+import { BrandMark } from "@/components/shell/BrandMark";
 import { Breadcrumbs } from "@/components/shell/Breadcrumbs";
 import { UserMenu } from "@/components/shell/UserMenu";
 import { OrganizationSwitcher } from "@/components/OrganizationSwitcher";
@@ -30,7 +31,7 @@ export function AppShell({
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-[16rem_1fr]">
+    <div className="min-h-screen bg-surface lg:grid lg:grid-cols-[16rem_1fr]">
       <SidebarPanel
         navGroups={navGroups}
         pathname={pathname}
@@ -39,7 +40,7 @@ export function AppShell({
 
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div className="absolute inset-0 bg-slate-900/40" onClick={closeMobile} />
+          <div className="absolute inset-0 bg-slate-950/50" onClick={closeMobile} />
           <SidebarPanel
             navGroups={navGroups}
             pathname={pathname}
@@ -50,11 +51,11 @@ export function AppShell({
       )}
 
       <div className="flex min-h-screen flex-col">
-        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-slate-200 bg-white/95 px-4 py-2.5 backdrop-blur lg:px-8">
+        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-surface-raised/95 px-4 py-2.5 backdrop-blur lg:px-8">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 lg:hidden"
+            className="rounded-md p-1.5 text-text-subtle hover:bg-surface-sunken lg:hidden"
             aria-label="Deschide meniul"
           >
             <Icon name="menu" />
@@ -86,19 +87,16 @@ function SidebarPanel({
   onNavigate?: () => void;
 }) {
   return (
-    <aside className={`flex-col border-r border-slate-200 bg-white ${className}`}>
-      <div className="flex h-[3.25rem] items-center gap-2 border-b border-slate-200 px-5">
-        <span className="grid h-7 w-7 place-items-center rounded-md bg-slate-900 text-xs font-bold text-white">
-          B
-        </span>
-        <span className="text-sm font-semibold text-slate-900">BusinessPuls</span>
+    <aside className={`flex-col border-r border-border bg-surface-raised ${className}`}>
+      <div className="flex h-[3.25rem] items-center border-b border-border px-5">
+        <BrandMark />
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         {navGroups.map((group, i) => (
           <div key={group.title ?? `group-${i}`} className={i > 0 ? "mt-6" : ""}>
             {group.title && (
-              <p className="px-2 pb-1.5 text-[0.6875rem] font-semibold uppercase tracking-wide text-slate-400">
+              <p className="px-2 pb-1.5 text-[0.6875rem] font-semibold uppercase tracking-wide text-text-subtle">
                 {group.title}
               </p>
             )}
@@ -114,8 +112,8 @@ function SidebarPanel({
                       aria-current={active ? "page" : undefined}
                       className={`group flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors ${
                         active
-                          ? "bg-slate-900 font-medium text-white"
-                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                          ? "bg-brand font-medium text-text-on-brand"
+                          : "text-text-muted hover:bg-surface-sunken hover:text-text"
                       }`}
                     >
                       <Icon name={item.icon} className="h-[1.125rem] w-[1.125rem] shrink-0" />
@@ -123,7 +121,7 @@ function SidebarPanel({
                       {!item.available && (
                         <span
                           className={`ml-auto rounded px-1 py-px text-[0.625rem] font-medium ${
-                            active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400"
+                            active ? "bg-white/20 text-text-on-brand" : "bg-surface-sunken text-text-subtle"
                           }`}
                         >
                           curând

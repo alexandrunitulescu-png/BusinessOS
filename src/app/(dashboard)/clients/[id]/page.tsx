@@ -42,9 +42,9 @@ export default async function ClientPage({
       />
 
       {canDelete && (
-        <div className="border-t border-slate-200 pt-5">
-          <p className="mb-2 text-sm font-medium text-slate-700">Șterge clientul</p>
-          <p className="mb-3 text-sm text-slate-500">
+        <div className="border-t border-border pt-5">
+          <p className="mb-2 text-sm font-medium text-text">Șterge clientul</p>
+          <p className="mb-3 text-sm text-text-muted">
             Acțiunea este permanentă. Facturile deja emise către acest client rămân neschimbate.
           </p>
           <DeleteButton action={deleteClientAction.bind(null, client.id)} label="Șterge clientul" />

@@ -41,7 +41,7 @@ export function OrgPlanSelect({
         value={value}
         disabled={isPending}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 outline-none focus:border-slate-500 disabled:opacity-50"
+        className="rounded-md border border-border-strong bg-surface-raised px-2 py-1 text-sm text-text outline-none focus:border-brand disabled:opacity-50"
       >
         {!currentCode && <option value="">—</option>}
         {ALL_PLAN_CODES.map((code) => (
@@ -50,9 +50,9 @@ export function OrgPlanSelect({
           </option>
         ))}
       </select>
-      {isPending && <span className="text-xs text-slate-400">Se salvează…</span>}
-      {done && !isPending && <span className="text-xs text-emerald-600">Salvat</span>}
-      {error && <span className="text-xs text-red-600">{error}</span>}
+      {isPending && <span className="text-xs text-text-subtle">Se salvează…</span>}
+      {done && !isPending && <span className="text-xs text-positive">Salvat</span>}
+      {error && <span className="text-xs text-critical">{error}</span>}
     </div>
   );
 }

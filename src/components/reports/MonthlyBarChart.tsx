@@ -43,7 +43,7 @@ export function MonthlyBarChart({
                 width={barW}
                 height={invH}
                 rx={2}
-                className="fill-slate-800"
+                className="fill-brand"
               >
                 <title>{`${monthLabel(d.month)}: facturat ${formatMoney(d.invoiced, currency)}`}</title>
               </rect>
@@ -53,7 +53,7 @@ export function MonthlyBarChart({
                 width={barW}
                 height={expH}
                 rx={2}
-                className="fill-amber-400"
+                className="fill-warning"
               >
                 <title>{`${monthLabel(d.month)}: cheltuieli ${formatMoney(d.expenses, currency)}`}</title>
               </rect>
@@ -61,7 +61,7 @@ export function MonthlyBarChart({
                 x={x}
                 y={height - 6}
                 textAnchor="middle"
-                className="fill-slate-400 text-[10px]"
+                className="fill-text-subtle text-[10px]"
               >
                 {monthLabel(d.month)}
               </text>
@@ -69,12 +69,12 @@ export function MonthlyBarChart({
           );
         })}
       </svg>
-      <div className="mt-2 flex gap-4 text-xs text-slate-500">
+      <div className="mt-2 flex gap-4 text-xs text-text-muted">
         <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-slate-800" /> Facturat
+          <span className="h-2.5 w-2.5 rounded-sm bg-brand" /> Facturat
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-amber-400" /> Cheltuieli
+          <span className="h-2.5 w-2.5 rounded-sm bg-warning" /> Cheltuieli
         </span>
       </div>
     </div>

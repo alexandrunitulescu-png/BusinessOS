@@ -115,8 +115,8 @@ export function EmployeeForm({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-slate-200 pt-5">
-          <p className="text-sm font-semibold text-slate-900">Contract</p>
+        <div className="flex flex-col gap-4 border-t border-border pt-5">
+          <p className="text-sm font-semibold text-text">Contract</p>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="CNP" hint="opțional — se validează cifra de control" error={errors.cnp?.message}>
               <Input inputMode="numeric" maxLength={13} {...register("cnp")} />
@@ -142,8 +142,8 @@ export function EmployeeForm({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-slate-200 pt-5">
-          <p className="text-sm font-semibold text-slate-900">Salariu</p>
+        <div className="flex flex-col gap-4 border-t border-border pt-5">
+          <p className="text-sm font-semibold text-text">Salariu</p>
           <div className="grid gap-4 sm:grid-cols-3">
             <Field label="Salariu de bază" hint="brut, opțional" error={errors.baseSalary?.message}>
               <Input
@@ -175,9 +175,9 @@ export function EmployeeForm({
         </Field>
       </fieldset>
 
-      {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+      {serverError && <p className="text-sm text-critical">{serverError}</p>}
 
-      <div className="flex items-center gap-3 border-t border-slate-200 pt-4">
+      <div className="flex items-center gap-3 border-t border-border pt-4">
         {!readOnly && (
           <Button type="submit" disabled={isPending}>
             {isPending ? "Se salvează…" : employee ? "Salvează" : "Adaugă angajat"}

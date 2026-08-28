@@ -41,9 +41,9 @@ export default async function SupplierPage({
       />
 
       {canDelete && (
-        <div className="border-t border-slate-200 pt-5">
-          <p className="mb-2 text-sm font-medium text-slate-700">Șterge furnizorul</p>
-          <p className="mb-3 text-sm text-slate-500">
+        <div className="border-t border-border pt-5">
+          <p className="mb-2 text-sm font-medium text-text">Șterge furnizorul</p>
+          <p className="mb-3 text-sm text-text-muted">
             Acțiunea este permanentă. Cheltuielile deja înregistrate rămân neschimbate.
           </p>
           <DeleteButton

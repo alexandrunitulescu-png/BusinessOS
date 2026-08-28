@@ -41,7 +41,7 @@ export function EInvoiceActions({
 
         <a
           href={`/invoices/${invoiceId}/einvoice-xml`}
-          className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="inline-flex items-center rounded-md border border-border-strong bg-surface-raised px-3.5 py-2 text-sm font-medium text-text hover:bg-surface-sunken"
         >
           Descarcă XML (UBL)
         </a>
@@ -63,7 +63,7 @@ export function EInvoiceActions({
         )}
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-critical">{error}</p>}
     </div>
   );
 }

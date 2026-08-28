@@ -76,7 +76,7 @@ export default async function CatalogPage({
             <TBody>
               {items.map((item) => (
                 <TR key={item.id}>
-                  <TD className="font-medium text-slate-900">
+                  <TD className="font-medium text-text">
                     <Link href={`/catalog/${item.id}`} className="hover:underline">
                       {item.name}
                     </Link>

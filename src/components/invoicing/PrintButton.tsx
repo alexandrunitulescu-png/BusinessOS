@@ -15,7 +15,7 @@ export function PrintButton({ autoPrint = false }: { autoPrint?: boolean }) {
     <button
       type="button"
       onClick={() => window.print()}
-      className="inline-flex items-center gap-1.5 rounded-md bg-slate-900 px-3.5 py-2 text-sm font-medium text-white hover:bg-slate-800 print:hidden"
+      className="inline-flex items-center gap-1.5 rounded-md bg-brand px-3.5 py-2 text-sm font-medium text-white hover:bg-brand-hover print:hidden"
     >
       <Icon name="file-text" className="h-4 w-4" />
       Printează / Salvează PDF

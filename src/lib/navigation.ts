@@ -26,9 +26,16 @@ export type NavGroup = {
   items: NavItem[];
 };
 
+/*
+ * M13 sidebar reorg (NG plan §12). Groups now read top-to-bottom as the owner's
+ * day: home first, then the business, then money, the org, and system last.
+ * Future sections attach to the same groups as their milestones land:
+ *   · "Centru de atenție" → ACASĂ (M15)   · "Taskuri" → ORGANIZAȚIE (M17)
+ *   · "Automatizări" (+ new AUTOMATIZĂRI group, Integrări moves in) (M18)
+ */
 export const NAV_GROUPS: NavGroup[] = [
   {
-    title: null,
+    title: "Acasă",
     items: [
       { label: "Panou principal", href: "/dashboard", icon: "home", resource: null, feature: null, available: true },
     ],
@@ -43,7 +50,7 @@ export const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    title: "Bani",
+    title: "Financiar",
     items: [
       { label: "Facturi", href: "/invoices", icon: "file-text", resource: "money", feature: null, available: true },
       { label: "Cheltuieli", href: "/expenses", icon: "receipt", resource: "money", feature: "EXPENSES", available: true },
@@ -54,8 +61,13 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "Organizație",
     items: [
-      { label: "Documente", href: "/documents", icon: "paperclip", resource: "catalog", feature: "DOCUMENTS", available: true },
       { label: "Angajați", href: "/employees", icon: "id-card", resource: "employees", feature: "EMPLOYEES", available: true },
+      { label: "Documente", href: "/documents", icon: "paperclip", resource: "catalog", feature: "DOCUMENTS", available: true },
+    ],
+  },
+  {
+    title: "Sistem",
+    items: [
       { label: "Integrări", href: "/integrations", icon: "plug", resource: "settings", feature: "EFACTURA", available: true },
       { label: "Setări", href: "/settings", icon: "settings", resource: "settings", feature: null, available: true },
     ],

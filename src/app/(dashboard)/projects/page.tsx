@@ -69,12 +69,12 @@ export default async function ProjectsPage({
           defaultValue={search}
           placeholder="Caută după nume sau descriere"
           aria-label="Caută proiecte"
-          className="w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-500"
+          className="w-full max-w-xs rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm text-text outline-none focus:border-brand"
         />
         <select
           name="status"
           defaultValue={status ?? ""}
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-500"
+          className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm text-text outline-none focus:border-brand"
         >
           <option value="">Toate statusurile</option>
           {PROJECT_STATUSES.map((s) => (
@@ -85,7 +85,7 @@ export default async function ProjectsPage({
         </select>
         <button
           type="submit"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm font-medium text-text hover:bg-surface-sunken"
         >
           Filtrează
         </button>
@@ -123,7 +123,7 @@ export default async function ProjectsPage({
             <TBody>
               {projects.map((project) => (
                 <TR key={project.id}>
-                  <TD className="font-medium text-slate-900">
+                  <TD className="font-medium text-text">
                     <Link href={`/projects/${project.id}`} className="hover:underline">
                       {project.name}
                     </Link>

@@ -89,7 +89,7 @@ export function PaymentForm({
           {(["INVOICE", "EXPENSE"] as const).map((t) => (
             <label
               key={t}
-              className="flex-1 cursor-pointer rounded-md border border-slate-200 px-3 py-2 text-sm has-[:checked]:border-slate-900 has-[:checked]:bg-slate-50"
+              className="flex-1 cursor-pointer rounded-md border border-border px-3 py-2 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft"
             >
               <input
                 type="radio"
@@ -136,7 +136,7 @@ export function PaymentForm({
       </Field>
 
       {selected && (
-        <p className="-mt-2 text-xs text-slate-500">
+        <p className="-mt-2 text-xs text-text-muted">
           Sold rămas: {formatMoney(selected.remaining, selected.currency)}
         </p>
       )}
@@ -175,9 +175,9 @@ export function PaymentForm({
         <Textarea {...register("notes")} />
       </Field>
 
-      {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+      {serverError && <p className="text-sm text-critical">{serverError}</p>}
 
-      <div className="flex items-center gap-3 border-t border-slate-200 pt-4">
+      <div className="flex items-center gap-3 border-t border-border pt-4">
         <Button type="submit" disabled={isPending}>
           {isPending ? "Se salvează…" : "Înregistrează plata"}
         </Button>

@@ -131,9 +131,9 @@ export function ExpenseForm({
         </div>
       </fieldset>
 
-      {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+      {serverError && <p className="text-sm text-critical">{serverError}</p>}
 
-      <div className="flex items-center gap-3 border-t border-slate-200 pt-4">
+      <div className="flex items-center gap-3 border-t border-border pt-4">
         {!readOnly && (
           <Button type="submit" disabled={isPending}>
             {isPending ? "Se salvează…" : expense ? "Salvează" : "Adaugă cheltuiala"}

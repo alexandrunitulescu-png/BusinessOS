@@ -217,10 +217,10 @@ export function InvoiceForm({
 
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-900">Linii factură</h2>
+          <h2 className="text-sm font-semibold text-text">Linii factură</h2>
           {catalog.length > 0 && (
             <select
-              className="rounded-md border border-slate-300 bg-white px-2 py-1.5 text-xs text-slate-700 outline-none focus:border-slate-500"
+              className="rounded-md border border-border-strong bg-surface-raised px-2 py-1.5 text-xs text-text outline-none focus:border-brand"
               value=""
               onChange={(e) => {
                 if (e.target.value) addFromCatalog(e.target.value);
@@ -244,17 +244,17 @@ export function InvoiceForm({
             return (
               <div
                 key={field.id}
-                className="rounded-lg border border-slate-200 bg-white p-3"
+                className="rounded-lg border border-border bg-surface-raised p-3"
               >
                 <div className="grid gap-2 sm:grid-cols-12">
                   <div className="sm:col-span-12">
                     <input
                       {...register(`lines.${index}.description`)}
                       placeholder="Descriere"
-                      className="w-full rounded-md border border-slate-300 px-2.5 py-1.5 text-sm outline-none focus:border-slate-500"
+                      className="w-full rounded-md border border-border-strong px-2.5 py-1.5 text-sm outline-none focus:border-brand"
                     />
                     {lineErrors?.description && (
-                      <p className="mt-0.5 text-xs text-red-600">
+                      <p className="mt-0.5 text-xs text-critical">
                         {lineErrors.description.message}
                       </p>
                     )}
@@ -267,10 +267,10 @@ export function InvoiceForm({
                     {...register(`lines.${index}.quantity`, { valueAsNumber: true })}
                   />
                   <div className="sm:col-span-2">
-                    <label className="text-[0.6875rem] font-medium text-slate-500">Unitate</label>
+                    <label className="text-[0.6875rem] font-medium text-text-muted">Unitate</label>
                     <input
                       {...register(`lines.${index}.unit`)}
-                      className="w-full rounded-md border border-slate-300 px-2.5 py-1.5 text-sm outline-none focus:border-slate-500"
+                      className="w-full rounded-md border border-border-strong px-2.5 py-1.5 text-sm outline-none focus:border-brand"
                     />
                   </div>
                   <LineNumber
@@ -296,7 +296,7 @@ export function InvoiceForm({
                   />
                 </div>
                 <div className="mt-2 flex items-center justify-between text-sm">
-                  <span className="text-slate-500">
+                  <span className="text-text-muted">
                     Net {formatMoney(line?.lineNet ?? 0, currency)} · TVA{" "}
                     {formatMoney(line?.lineVat ?? 0, currency)}
                   </span>
@@ -304,7 +304,7 @@ export function InvoiceForm({
                     <button
                       type="button"
                       onClick={() => remove(index)}
-                      className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-red-600"
+                      className="inline-flex items-center gap-1 text-xs text-text-subtle hover:text-critical"
                     >
                       <Icon name="close" className="h-3.5 w-3.5" />
                       Șterge linia
@@ -319,24 +319,24 @@ export function InvoiceForm({
         <button
           type="button"
           onClick={() => append(emptyLine())}
-          className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-dashed border-border-strong px-3 py-2 text-sm font-medium text-text-muted hover:bg-surface-sunken"
         >
           <Icon name="plus" className="h-4 w-4" />
           Adaugă linie
         </button>
-        {linesError && <p className="mt-1 text-xs text-red-600">{linesError}</p>}
+        {linesError && <p className="mt-1 text-xs text-critical">{linesError}</p>}
       </section>
 
-      <section className="ml-auto w-full max-w-xs rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm">
+      <section className="ml-auto w-full max-w-xs rounded-lg border border-border bg-surface-sunken p-4 text-sm">
         <div className="flex justify-between">
-          <span className="text-slate-500">Subtotal</span>
+          <span className="text-text-muted">Subtotal</span>
           <span className="tabular-nums">{formatMoney(totals.subtotal, currency)}</span>
         </div>
         <div className="mt-1 flex justify-between">
-          <span className="text-slate-500">TVA</span>
+          <span className="text-text-muted">TVA</span>
           <span className="tabular-nums">{formatMoney(totals.vatTotal, currency)}</span>
         </div>
-        <div className="mt-2 flex justify-between border-t border-slate-200 pt-2 font-semibold text-slate-900">
+        <div className="mt-2 flex justify-between border-t border-border pt-2 font-semibold text-text">
           <span>Total</span>
           <span className="tabular-nums">{formatMoney(totals.total, currency)}</span>
         </div>
@@ -346,9 +346,9 @@ export function InvoiceForm({
         <Textarea {...register("notes")} placeholder="Apar pe factură" />
       </Field>
 
-      {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+      {serverError && <p className="text-sm text-critical">{serverError}</p>}
 
-      <div className="flex items-center gap-3 border-t border-slate-200 pt-4">
+      <div className="flex items-center gap-3 border-t border-border pt-4">
         <Button type="submit" disabled={isPending}>
           {isPending ? "Se salvează…" : invoice ? "Salvează ciorna" : "Creează ciorna"}
         </Button>
@@ -372,14 +372,14 @@ const LineNumber = forwardRef<HTMLInputElement, LineNumberProps>(function LineNu
 ) {
   return (
     <div className={className}>
-      <label className="text-[0.6875rem] font-medium text-slate-500">{label}</label>
+      <label className="text-[0.6875rem] font-medium text-text-muted">{label}</label>
       <input
         ref={ref}
         type="number"
         {...props}
-        className="w-full rounded-md border border-slate-300 px-2.5 py-1.5 text-sm outline-none focus:border-slate-500"
+        className="w-full rounded-md border border-border-strong px-2.5 py-1.5 text-sm outline-none focus:border-brand"
       />
-      {error && <p className="mt-0.5 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-0.5 text-xs text-critical">{error}</p>}
     </div>
   );
 });

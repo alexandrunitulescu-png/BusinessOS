@@ -48,7 +48,7 @@ export function DeleteButton({
       <Button type="button" variant="ghost" disabled={isPending} onClick={() => setArmed(false)}>
         Renunță
       </Button>
-      {error && <span className="text-sm text-red-600">{error}</span>}
+      {error && <span className="text-sm text-critical">{error}</span>}
     </div>
   );
 }

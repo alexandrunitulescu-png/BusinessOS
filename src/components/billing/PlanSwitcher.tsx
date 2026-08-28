@@ -46,21 +46,21 @@ export function PlanSwitcher({
             <div
               key={plan.code}
               className={`rounded-xl border p-4 ${
-                current ? "border-slate-900 bg-slate-50" : "border-slate-200 bg-white"
+                current ? "border-brand bg-surface-sunken" : "border-border bg-surface-raised"
               }`}
             >
               <div className="flex items-baseline justify-between">
-                <p className="text-sm font-semibold text-slate-900">{plan.name}</p>
+                <p className="text-sm font-semibold text-text">{plan.name}</p>
                 {current && (
-                  <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[0.625rem] font-medium text-white">
+                  <span className="rounded-full bg-brand px-2 py-0.5 text-[0.625rem] font-medium text-white">
                     curent
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-lg font-semibold text-slate-900">
+              <p className="mt-1 text-lg font-semibold text-text">
                 {plan.price ? `${formatMoney(plan.price, plan.currency)}/lună` : "Gratuit"}
               </p>
-              <ul className="mt-3 space-y-1 text-xs text-slate-500">
+              <ul className="mt-3 space-y-1 text-xs text-text-muted">
                 <li>{limit(plan.limits.invoices_per_month)} facturi / lună</li>
                 <li>{limit(plan.limits.users)} utilizatori</li>
                 <li>{limit(plan.limits.storage_mb)} MB stocare</li>
@@ -70,7 +70,7 @@ export function PlanSwitcher({
                   <li
                     key={key}
                     className={`flex items-center gap-1 ${
-                      plan.features[key] ? "text-slate-600" : "text-slate-300"
+                      plan.features[key] ? "text-text-muted" : "text-text-subtle"
                     }`}
                   >
                     <Icon name={plan.features[key] ? "plus" : "close"} className="h-3 w-3" />
@@ -94,9 +94,9 @@ export function PlanSwitcher({
           );
         })}
       </div>
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-critical">{error}</p>}
       {canManage && (
-        <p className="mt-2 text-xs text-slate-400">
+        <p className="mt-2 text-xs text-text-subtle">
           Nu există plată online încă — schimbarea planului este imediată.
         </p>
       )}

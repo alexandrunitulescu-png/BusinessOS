@@ -76,7 +76,7 @@ export function DocumentUpload({
 
   return (
     <div>
-      <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
+      <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-dashed border-border-strong px-3 py-2 text-sm font-medium text-text-muted hover:bg-surface-sunken">
         <Icon name="plus" className="h-4 w-4" />
         {uploading ? "Se încarcă…" : "Încarcă document"}
         <input
@@ -91,7 +91,7 @@ export function DocumentUpload({
           }}
         />
       </label>
-      {error && <p className="mt-1.5 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-critical">{error}</p>}
     </div>
   );
 }

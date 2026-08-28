@@ -23,9 +23,9 @@ export function DocumentsSection({
   canDelete: boolean;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5">
+    <section className="rounded-xl border border-border bg-surface-raised p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-slate-900">Documente</h2>
+        <h2 className="text-sm font-semibold text-text">Documente</h2>
         {canWrite && (
           <DocumentUpload
             organizationId={organizationId}
@@ -36,9 +36,9 @@ export function DocumentsSection({
       </div>
 
       {documents.length === 0 ? (
-        <p className="mt-3 text-sm text-slate-400">Niciun document atașat.</p>
+        <p className="mt-3 text-sm text-text-subtle">Niciun document atașat.</p>
       ) : (
-        <ul className="mt-3 divide-y divide-slate-100">
+        <ul className="mt-3 divide-y divide-border">
           {documents.map((doc) => (
             <li
               key={doc.id}
@@ -48,12 +48,12 @@ export function DocumentsSection({
                 href={`/documents/${doc.id}/download`}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center gap-2 font-medium text-slate-900 hover:underline"
+                className="inline-flex items-center gap-2 font-medium text-text hover:underline"
               >
-                <Icon name="paperclip" className="h-4 w-4 text-slate-400" />
+                <Icon name="paperclip" className="h-4 w-4 text-text-subtle" />
                 {doc.filename}
               </a>
-              <span className="flex items-center gap-3 text-slate-400">
+              <span className="flex items-center gap-3 text-text-subtle">
                 <span>
                   {formatBytes(doc.sizeBytes)} · {formatDate(doc.createdAt)}
                 </span>

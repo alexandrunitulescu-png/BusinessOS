@@ -45,26 +45,26 @@ export default async function ReportsPage({
 
       <form className="flex flex-wrap items-end gap-3">
         <label className="text-sm">
-          <span className="mb-1 block font-medium text-slate-700">De la</span>
+          <span className="mb-1 block font-medium text-text">De la</span>
           <input
             type="date"
             name="from"
             defaultValue={from}
-            className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-500"
+            className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="text-sm">
-          <span className="mb-1 block font-medium text-slate-700">Până la</span>
+          <span className="mb-1 block font-medium text-text">Până la</span>
           <input
             type="date"
             name="to"
             defaultValue={to}
-            className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-500"
+            className="rounded-md border border-border-strong bg-surface-raised px-3 py-2 text-sm outline-none focus:border-brand"
           />
         </label>
         <button
           type="submit"
-          className="rounded-md bg-slate-900 px-3.5 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          className="rounded-md bg-brand px-3.5 py-2 text-sm font-medium text-white hover:bg-brand-hover"
         >
           Aplică
         </button>
@@ -98,16 +98,16 @@ export default async function ReportsPage({
         )}
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="text-sm font-semibold text-slate-900">Facturat vs cheltuieli, pe lună</h2>
+      <section className="rounded-xl border border-border bg-surface-raised p-5">
+        <h2 className="text-sm font-semibold text-text">Facturat vs cheltuieli, pe lună</h2>
         <div className="mt-3">
           <MonthlyBarChart data={report.monthly} currency={cur} />
         </div>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-slate-900">Sold clienți pe vechime</h2>
+        <div className="rounded-xl border border-border bg-surface-raised p-5">
+          <h2 className="text-sm font-semibold text-text">Sold clienți pe vechime</h2>
           <Table>
             <THead>
               <tr>
@@ -128,16 +128,16 @@ export default async function ReportsPage({
           </Table>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-slate-900">Top clienți (facturat în perioadă)</h2>
+        <div className="rounded-xl border border-border bg-surface-raised p-5">
+          <h2 className="text-sm font-semibold text-text">Top clienți (facturat în perioadă)</h2>
           {report.topClients.length === 0 ? (
-            <p className="mt-3 text-sm text-slate-400">Nicio factură în perioadă.</p>
+            <p className="mt-3 text-sm text-text-subtle">Nicio factură în perioadă.</p>
           ) : (
-            <ul className="mt-3 divide-y divide-slate-100">
+            <ul className="mt-3 divide-y divide-border">
               {report.topClients.map((c) => (
                 <li key={c.name} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-slate-700">{c.name}</span>
-                  <span className="font-medium tabular-nums text-slate-900">
+                  <span className="text-text">{c.name}</span>
+                  <span className="font-medium tabular-nums text-text">
                     {formatMoney(c.amount, cur)}
                   </span>
                 </li>
@@ -147,7 +147,7 @@ export default async function ReportsPage({
         </div>
       </section>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-text-subtle">
         Perioadă: {formatDate(report.from)} – {formatDate(report.to)} · {report.invoiceCount} facturi
       </p>
     </div>
